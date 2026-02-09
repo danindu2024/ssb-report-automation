@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <title>Monthly Performance Report</title>
+    <link rel="stylesheet" href="../styles/report_style.css">
+    <style>
+        /* Inline overrides specific to the report content */
+        .page-break { page-break-before: always; }
+        
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px double #333;
+            padding-bottom: 20px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        h1 { font-size: 24pt; color: #002366; margin: 0; }
+        h2 { font-size: 18pt; color: #444; margin-top: 5px; }
+        h3 { font-size: 14pt; color: #002366; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 30px; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 10pt;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        
+        /* KPI Cards */
+        .kpi-grid {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .kpi-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 15px;
+            width: 48%;
+            text-align: center;
+        }
+        .kpi-value {
+            font-size: 18pt;
+            font-weight: bold;
+            color: #002366;
+            display: block;
+        }
+        .kpi-label {
+            font-size: 10pt;
+            color: #666;
+        }
+
+        /* Event Grid */
+        .event-item {
+            display: flex;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            padding: 10px;
+            page-break-inside: avoid;
+        }
+        .event-img {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 15px;
+            background: #eee;
+        }
+        .event-details { flex: 1; }
+        .event-date { font-size: 9pt; color: #888; }
+        .event-title { font-size: 12pt; font-weight: bold; margin: 5px 0; }
+        .text-danger {
+            color: #cc0000; /* Dark red for better readability */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-section">
+        <img src="../images/logo.png" class="logo" alt="SSB Logo">
+        <h1>ශ්‍රී ලංකා සමාජ ආරක්ෂණ මණ්ඩලය</h1>
+        <h2>මාසික කාර්ය සාධන වාර්තාව</h2>
+        <p>දිනය: {{ generated_at }}</p>
+    </div>
+
+    <h3>විධායක සාරාංශය (Executive Summary)</h3>
+    
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <span class="kpi-value">Rs. {{ "{:,.2f}".format(executive_summary.total_revenue|default(0)) }}</span>
+            <span class="kpi-label">මුළු ආදායම (Total Revenue)</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-value">{{ "{:,}".format(executive_summary.new_enrollments|default(0)) }}</span>
+            <span class="kpi-label">නව බඳවා ගැනීම් (New Enrollments)</span>
+        </div>
+    </div>
+
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th class="text-right">Value</th>
+        </tr>
+        <tr>
+            <td>සාමාජික දායක මුදල් (Member Collections)</td>
+            <td class="text-right">Rs. {{ "{:,.2f}".format(executive_summary.member_collections|default(0)) }}</td>
+        </tr>
+        <tr>
+            <td>සක්‍රීය සාමාජිකයින් (Active Members)</td>
+            <td class="text-right">{{ "{:,}".format(executive_summary.active_members|default(0)) }}</td>
+        </tr>
+        <tr>
+            <td>විශ්‍රාමිකයින් (Pensioners)</td>
+            <td class="text-right">{{ "{:,}".format(executive_summary.pensioners|default(0)) }}</td>
+        </tr>
+    </table>
+
+    <h3>දිස්ත්‍රික් කාර්ය සාධනය (District Performance)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>දිස්ත්‍රික්කය (District)</th>
+                <th class="text-right">ඉලක්කය (Target)</th>
+                <th class="text-right">ප්‍රගතිය (Actual)</th>
+                <th class="text-right">ප්‍රතිශතය (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dist in district_performance %}
+            <tr>
+                <td>{{ dist.district }}</td>
+                <td class="text-right">{{ "{:,}".format(dist.target) }}</td>
+                <td class="text-right">{{ "{:,}".format(dist.recruitment) }}</td>
+                <td class="text-right">
+                    <span class="{{ 'text-danger' if dist.achievement < 50 }}">
+                        {{ dist.achievement }}%
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h3>මූල්‍ය විශේෂාංග (Financial Highlights)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>විස්තරය (Description)</th>
+                <th class="text-right">2026 (Rs.)</th>
+                <th class="text-right">2025 (Rs.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in financial_highlights %}
+            <tr>
+                <td>{{ item.description }}</td>
+                <td class="text-right">{{ "{:,.2f}".format(item.amount_2026) }}</td>
+                <td class="text-right">{{ "{:,.2f}".format(item.amount_2025) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>කාර්ය මණ්ඩල සංඛ්‍යාලේඛන (Staff Statistics)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>තනතුර (Designation)</th>
+                <th class="text-center">අනුමත (Approved)</th>
+                <th class="text-center">පවතින (Existing)</th>
+                <th class="text-center">පුරප්පාඩු (Vacancies)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for staff in staff_stats %}
+            <tr>
+                <td>{{ staff.designation }}</td>
+                <td class="text-center">{{ staff.approved }}</td>
+                <td class="text-center">{{ staff.existing }}</td>
+                <td class="text-center" style="font-weight: bold; color: #990000;">{{ staff.vacancies }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h3>විශේෂ සිදුවීම් (Special Events)</h3>
+    {% for event in events %}
+    <div class="event-item">
+        {% if event.image %}
+            <img src="../images/{{ event.image }}" class="event-img" alt="Event Photo">
+        {% else %}
+            <div class="event-img" style="display:flex;align-items:center;justify-content:center;color:#999;">No Image</div>
+        {% endif %}
+        
+        <div class="event-details">
+            <div class="event-date">{{ event.date }}</div>
+            <div class="event-title">{{ event.title }}</div>
+            <p>{{ event.description }}</p>
+        </div>
+    </div>
+    {% endfor %}
+
+</body>
+</html>

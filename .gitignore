@@ -1,0 +1,25 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+
+# Data Files
+*.xlsx
+*.csv
+*.xls
+
+# Generated Outputs
+output/
+proof_sheets/
+*.pdf
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

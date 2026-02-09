@@ -1,0 +1,7 @@
+weasyprint
+openpyxl
+Pillow
+pillow-heif
+matplotlib
+jinja2
+python-dateutil

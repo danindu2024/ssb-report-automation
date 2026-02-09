@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'Noto Sans Sinhala';
+    src: url('../fonts/NotoSansSinhala-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Sans Sinhala';
+    src: url('../fonts/NotoSansSinhala-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Noto Sans Sinhala', sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Page Setup for A4 */
+@page {
+    size: A4;
+    margin: 2cm;
+    @top-center {
+        content: "ශ්‍රී ලංකා සමාජ ආරක්ෂණ මණ්ඩලය"; /* Sri Lanka Social Security Board */
+        font-size: 9pt;
+        color: #666;
+    }
+    @bottom-right {
+        content: "Page " counter(page);
+        font-size: 9pt;
+    }
+}
