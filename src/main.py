@@ -2,6 +2,7 @@ import argparse
 import sys
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
+from chart_generator import generate_district_chart
 
 # Import your custom modules
 from data_loader import DataLoader
@@ -49,6 +50,13 @@ def main():
         
         loader = DataLoader(excel_path)
         data_context = loader.load_data()
+
+        # 2.5 Generate Visualizations [NEW STEP]
+        print("📊 Step 2.5: Generating Charts...")
+        chart_filename = generate_district_chart(data_context['district_performance'])
+        
+        # Add the filename to the context so Jinja knows what to look for
+        data_context['chart_district'] = chart_filename
         
         # 3. Render HTML with Jinja2
         print("📝 Step 2: Rendering HTML Template...")
