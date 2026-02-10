@@ -71,7 +71,7 @@ def main():
         html_content = template.render(**data_context)
 
         # 4. Convert to PDF
-        print("asd Step 3: Generating PDF with WeasyPrint...")
+        print("📄 Step 3: Generating PDF with WeasyPrint...")
         render_report(html_content, str(output_pdf_path))
         
         print("-" * 40)
