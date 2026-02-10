@@ -96,7 +96,7 @@
 <body>
 
     <div class="header-section">
-        <img src="../images/logo.png" class="logo" alt="SSB Logo">
+        <img src="../assets/images/logo.png" class="logo" alt="SSB Logo">
         <h1>ශ්‍රී ලංකා සමාජ ආරක්ෂණ මණ්ඩලය</h1>
         <h2>මාසික කාර්ය සාධන වාර්තාව</h2>
         <p>දිනය: {{ generated_at }}</p>
@@ -135,6 +135,9 @@
     </table>
 
     <h3>දිස්ත්‍රික් කාර්ය සාධනය (District Performance)</h3>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="../assets/images/{{ chart_district }}" style="width: 100%; max-width: 700px; border: 1px solid #ddd; padding: 5px;">
+    </div>
     <table>
         <thead>
             <tr>

@@ -72,10 +72,23 @@ class DataLoader:
 
         return data
 
+    def _clean_number(self, value):
+        """Safely convert value to float, handling commas and common placeholders."""
+        if value is None:
+            return 0.0
+        try:
+            str_val = str(value).replace(',', '').strip()
+            if not str_val or str_val in ['-', 'N/A', 'NA', '.']:
+                return 0.0
+            return float(str_val)
+        except (ValueError, TypeError):
+            print(f"⚠️ Warning: Invalid number format '{value}'. Defaulting to 0.")
+            return 0.0
+
     def _parse_district_performance(self, sheet):
         """
         Reads: [District, Recruitment_Count, Target_Count]
-        Fix: Forces values to float/int to prevent 'str' division errors.
+        Fix: Forces values to float/int and handles bad formatting.
         """
         data = []
         # iter_rows returns tuples. row[0]=District, row[1]=Recruitment, row[2]=Target
@@ -84,25 +97,19 @@ class DataLoader:
             if not row[0]: 
                 continue
 
-            try:
-                # Force conversion to numbers (handle strings like "1,000" or "500")
-                # We use str().replace(',', '') just in case Excel sent "1,200" as text
-                recruitment = float(str(row[1]).replace(',', '')) if row[1] else 0
-                target = float(str(row[2]).replace(',', '')) if row[2] else 0
-                
-                achievement = 0
-                if target > 0:
-                    achievement = round((recruitment / target) * 100, 1)
+            recruitment = self._clean_number(row[1])
+            target = self._clean_number(row[2])
+            
+            achievement = 0
+            if target > 0:
+                achievement = round((recruitment / target) * 100, 1)
 
-                data.append({
-                    "district": row[0],
-                    "recruitment": recruitment,
-                    "target": target,
-                    "achievement": achievement
-                })
-            except ValueError:
-                print(f"⚠️ Warning: Could not parse numbers for district {row[0]}. Skipping.")
-                continue
+            data.append({
+                "district": row[0],
+                "recruitment": recruitment,
+                "target": target,
+                "achievement": achievement
+            })
                 
         return data
 
