@@ -1,22 +1,34 @@
-from weasyprint import HTML, CSS
+"""
+PDF Generation Engine for SSB Monthly Report.
+Converts HTML string to PDF using WeasyPrint with custom font configurations.
+"""
+from weasyprint import HTML
+from weasyprint.text.fonts import FontConfiguration
 from pathlib import Path
 
-# define base path
-BASE_DIR = Path(__file__).parent.parent # specific to where this script is located
-ASSETS_DIR = BASE_DIR / "assets"
+from config import ASSETS_DIR, BASE_DIR
 
-def render_report(html_content, output_filename):
-    # 1. Load CSS explicitly
-    css_path = ASSETS_DIR / "styles" / "report_style.css"
-    
-    # 2. Prepare HTML with base_url
-    # The base_url is critical! It tells WeasyPrint that when CSS says "../fonts",
-    # it should look relative to the assets folder.
-    
-    print("Rendering PDF...")
-    
-    HTML(string=html_content, base_url=str(ASSETS_DIR)).write_pdf(
-        output_filename,
-        stylesheets=[CSS(css_path)]
-    )
-    print(f"Success! Report saved to {output_filename}")
+class PDFGenerator:
+    def __init__(self, mode='preview'):
+        self.mode = mode
+        self.font_config = FontConfiguration()
+
+    def generate_pdf(self, html_content, output_path):
+        """
+        Generates the PDF from HTML content.
+        Uses FontConfiguration to ensure Sinhala fonts are loaded and embedded correctly.
+        """
+        print("📄 Rendering PDF with WeasyPrint...")
+        
+        try:
+            # base_url is set to BASE_DIR so WeasyPrint can resolve any
+            # relative paths (e.g. images linked from templates) correctly.
+            HTML(string=html_content, base_url=str(BASE_DIR)).write_pdf(
+                target=output_path,
+                font_config=self.font_config
+            )
+            print(f"   ✓ Success! Report saved to:\n   {output_path}")
+            return True
+        except Exception as e:
+            print(f"   ❌ Error generating PDF: {str(e)}")
+            return False
