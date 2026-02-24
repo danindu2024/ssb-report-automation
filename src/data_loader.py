@@ -1,158 +1,63 @@
 import openpyxl
 from pathlib import Path
-from datetime import datetime
 
-class DataLoader:
-    def __init__(self, excel_path):
-        self.excel_path = Path(excel_path)
-        if not self.excel_path.exists():
-            raise FileNotFoundError(f"Excel file not found: {self.excel_path}")
+def load_master_sheet(month, filepath):
+    """
+    Extract all division data from master Excel using the 10 sheets structure.
+    Returns a unified dictionary mapping sheet names to list of dictionaries for each row.
+    """
+    excel_path = Path(filepath)
+    if not excel_path.exists():
+        raise FileNotFoundError(f"Excel file not found: {excel_path}")
 
-    def load_data(self):
-        print(f"Loading data from: {self.excel_path.name}...")
-        wb = openpyxl.load_workbook(self.excel_path, data_only=True)
-        
-        # Initialize the context dictionary that will be passed to Jinja2
-        context = {
-            "generated_at": datetime.now().strftime("%Y-%m-%d"),
-            "executive_summary": {},
-            "district_performance": [],
-            "financial_highlights": [],
-            "staff_stats": [],
-            "events": []
-        }
+    print(f"Loading data from: {excel_path.name}...")
+    wb = openpyxl.load_workbook(excel_path, data_only=True)
+    
+    data = {
+        "report_month": month,
+        "scorecards": _extract_sheet(wb, "DIV_01_SCORECARDS", min_row=5),
+        "districts": _extract_sheet(wb, "DIV_02_DISTRICTS", min_row=5),
+        "financials": _extract_sheet(wb, "DIV_03_FINANCIALS", min_row=5),
+        "board": _extract_sheet(wb, "DIV_04_BOARD", min_row=5),
+        "events": _extract_sheet(wb, "DIV_05_EVENTS", min_row=5),
+        "hr_stats": _extract_sheet(wb, "DIV_06_HR", min_row=5),
+        "training": _extract_sheet(wb, "DIV_07_TRAINING", min_row=5),
+        "pensions": _extract_sheet(wb, "DIV_08_PENSIONS", min_row=5),
+        "it_projects": _extract_sheet(wb, "DIV_09_IT", min_row=5),
+        "audit": _extract_sheet(wb, "DIV_10_AUDIT", min_row=5)
+    }
 
-        # 1. Parse Executive Summary (Key-Value lookup)
-        if 'Executive_Summary' in wb.sheetnames:
-            context['executive_summary'] = self._parse_executive_summary(wb['Executive_Summary'])
-        
-        # 2. Parse District Performance (Table)
-        if 'District_Performance' in wb.sheetnames:
-            context['district_performance'] = self._parse_district_performance(wb['District_Performance'])
+    print("✓ Data successfully loaded.")
+    return data
 
-        # 3. Parse Financial Highlights (Table)
-        if 'Financial_Highlights' in wb.sheetnames:
-            context['financial_highlights'] = self._parse_financial_highlights(wb['Financial_Highlights'])
+def _extract_sheet(wb, sheet_name, min_row):
+    """
+    Generic extractor: Reads the sheet (if exists).
+    Row 4 is assumed to be the header based on DSD.md.
+    """
+    if sheet_name not in wb.sheetnames:
+        print(f"⚠️ Warning: Sheet '{sheet_name}' not found.")
+        return []
 
-        # 4. Parse Staff Stats (Table)
-        if 'Staff_Statistics' in wb.sheetnames:
-            context['staff_stats'] = self._parse_staff_stats(wb['Staff_Statistics'])
+    sheet = wb[sheet_name]
+    
+    # 1. Read headers from Row 4 (0-indexed -> 3)
+    header_row = [str(cell.value).strip() if cell.value else f"COL_{idx}" 
+                  for idx, cell in enumerate(sheet[4], start=1)]
+    
+    # 2. Extract Data
+    rows = []
+    for row in sheet.iter_rows(min_row=min_row, values_only=True):
+        # Skip if row is completely empty or the first cell is missing (which usually defines the row)
+        if not any(row) or row[0] is None:
+            continue
             
-        # 5. Parse Monthly Events (Table)
-        if 'Monthly_Events' in wb.sheetnames:
-            context['events'] = self._parse_events(wb['Monthly_Events'])
-
-        print("✓ Data successfully loaded.")
-        return context
-
-    def _parse_executive_summary(self, sheet):
-        """
-        Reads rows like: [Category, Metric_Name, Current_Value, Target_Value]
-        Converts them into a dictionary for easy access: data['total_revenue']
-        """
-        data = {}
-        # Iterate from row 2 to skip header
-        for row in sheet.iter_rows(min_row=2, values_only=True):
-            metric_name = row[1]  # Column B
-            value = row[2]        # Column C
-            
-            if not metric_name: continue
-
-            # Map Excel names to Python keys
-            if "Total Revenue" in str(metric_name):
-                data['total_revenue'] = value
-            elif "Member Collections" in str(metric_name):
-                data['member_collections'] = value
-            elif "Total New Enrollments" in str(metric_name):
-                data['new_enrollments'] = value
-            elif "Active Members" in str(metric_name):
-                data['active_members'] = value
-            elif "Pensioners" in str(metric_name):
-                data['pensioners'] = value
-
-        return data
-
-    def _clean_number(self, value):
-        """Safely convert value to float, handling commas and common placeholders."""
-        if value is None:
-            return 0.0
-        try:
-            str_val = str(value).replace(',', '').strip()
-            if not str_val or str_val in ['-', 'N/A', 'NA', '.']:
-                return 0.0
-            return float(str_val)
-        except (ValueError, TypeError):
-            print(f"⚠️ Warning: Invalid number format '{value}'. Defaulting to 0.")
-            return 0.0
-
-    def _parse_district_performance(self, sheet):
-        """
-        Reads: [District, Recruitment_Count, Target_Count]
-        Fix: Forces values to float/int and handles bad formatting.
-        """
-        data = []
-        # iter_rows returns tuples. row[0]=District, row[1]=Recruitment, row[2]=Target
-        for row in sheet.iter_rows(min_row=2, values_only=True):
-            # Skip empty rows
-            if not row[0]: 
-                continue
-
-            recruitment = self._clean_number(row[1])
-            target = self._clean_number(row[2])
-            
-            achievement = 0
-            if target > 0:
-                achievement = round((recruitment / target) * 100, 1)
-
-            data.append({
-                "district": row[0],
-                "recruitment": recruitment,
-                "target": target,
-                "achievement": achievement
-            })
+        row_dict = {}
+        for col_idx, value in enumerate(row):
+            if col_idx < len(header_row):
+                key = header_row[col_idx]
+                row_dict[key] = value
                 
-        return data
-
-    def _parse_financial_highlights(self, sheet):
-        """
-        Reads: [Description, Amount_2026_Rs, Amount_2025_Rs]
-        """
-        data = []
-        for row in sheet.iter_rows(min_row=2, values_only=True):
-            if row[0]:
-                data.append({
-                    "description": row[0],
-                    "amount_2026": row[1] or 0,
-                    "amount_2025": row[2] or 0
-                })
-        return data
-
-    def _parse_staff_stats(self, sheet):
-        """
-        Reads: [Designation, Approved_Cadre, Existing_Cadre, Vacancies]
-        """
-        data = []
-        for row in sheet.iter_rows(min_row=2, values_only=True):
-            if row[0]:
-                data.append({
-                    "designation": row[0],
-                    "approved": row[1] or 0,
-                    "existing": row[2] or 0,
-                    "vacancies": row[3] or 0
-                })
-        return data
-
-    def _parse_events(self, sheet):
-        """
-        Reads: [Date, Event_Title, Description_Sinhala, Image_Filename]
-        """
-        events = []
-        for row in sheet.iter_rows(min_row=2, values_only=True):
-            if row[0]:
-                events.append({
-                    "date": row[0], # datetime object from Excel
-                    "title": row[1],
-                    "description": row[2],
-                    "image": row[3]
-                })
-        return events
+        rows.append(row_dict)
+        
+    return rows
