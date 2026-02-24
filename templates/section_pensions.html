@@ -1,0 +1,24 @@
+<div class="page-break"></div>
+<h1>විශ්‍රාම වැටුප් සහ ප්‍රතිලාභ</h1>
+<table>
+    <thead>
+        <tr>
+            <th>මාසය</th>
+            <th>විශ්‍රාමිකයින් ගණන</th>
+            <th>සම්පූර්ණ මුදල</th>
+            <th>මරණ ප්‍රතිලාභ</th>
+            <th>අර්ධ ප්‍රතිලාභ</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in pensions %}
+        <tr>
+            <td>{{ row.MONTH }}</td>
+            <td>{{ row.PENSIONERS_COUNT | format_number }}</td>
+            <td>{{ row.TOTAL_AMOUNT | format_currency }}</td>
+            <td>{{ row.DEATH_BENEFITS | format_currency }}</td>
+            <td>{{ row.PARTIAL_REFUNDS | format_currency }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
