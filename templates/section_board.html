@@ -1,0 +1,14 @@
+<div class="page-break"></div>
+<h1>අධ්‍යක්ෂ මණ්ඩලය</h1>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+    {% for member in board %}
+    <div style="width: 45%; margin-bottom: 20pt; text-align: center;">
+        {% if member.photo_url %}
+        <img src="{{ member.photo_url }}" class="director-photo" alt="{{ member.NAME_SINHALA }}" />
+        {% endif %}
+        <h3 style="margin: 10pt 0 5pt 0; color: #002366;">{{ member.NAME_SINHALA }}</h3>
+        <div style="font-weight: bold; color: #666; font-size: 10pt;">{{ member.POSITION }}</div>
+        <p style="font-size: 10pt; text-align: justify; margin-top: 5pt;">{{ member.BIO }}</p>
+    </div>
+    {% endfor %}
+</div>
