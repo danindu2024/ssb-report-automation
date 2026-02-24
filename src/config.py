@@ -9,8 +9,8 @@ ASSETS_DIR = BASE_DIR / "assets"
 LOGS_DIR = OUTPUT_DIR / "logs"
 CHARTS_DIR = OUTPUT_DIR / "charts"
 
-# File Paths
-MASTER_EXCEL_PATH = DATA_DIR / "Annual_Report_Master_2026.xlsx"
+# Core Files
+MASTER_EXCEL_PATH = DATA_DIR / "Annual_Report_Master_V2_2026.xlsx"
 FONTS_DIR = ASSETS_DIR / "fonts"
 
 # System Initialization
