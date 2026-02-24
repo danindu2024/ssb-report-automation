@@ -1,0 +1,24 @@
+<div class="page-break"></div>
+
+<h2 class="section-title">01. ප්‍රධාන දර්ශක (Key Scorecards)</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>මාසය</th>
+            <th class="text-right">බඳවා ගැනීම්</th>
+            <th class="text-right">පළමු වාරිකය (රු.මිලි)</th>
+            <th class="text-right">වාර්ෂික එකතුව (රු.මිලි)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in scorecards %}
+        <tr>
+            <td>{{ row.MONTH }}</td>
+            <td class="text-right">{{ row.RECRUITMENT_ACTUAL|format_number }}</td>
+            <td class="text-right">{{ row.FIRST_PREMIUM|format_currency }}</td>
+            <td class="text-right">{{ row.ANNUAL_COLLECTION|format_currency }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

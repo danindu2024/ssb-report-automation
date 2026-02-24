@@ -1,0 +1,38 @@
+<div class="page-break"></div>
+
+<h2 class="section-title">02. දිස්ත්‍රික් ප්‍රගතිය (District Performance)</h2>
+
+{% if charts.districts_performance %}
+<div class="chart-container">
+    <img src="{{ charts.districts_performance }}" alt="District Performance Chart">
+</div>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>ස්ථානය</th>
+            <th>දිස්ත්‍රික්කය</th>
+            <th class="text-right">බඳවා ගැනීම් එකතුව</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for district in districts|sort(attribute='TOTAL', reverse=true) %}
+        {% if district.TOTAL and district.TOTAL|float > 0 %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ district.DISTRICT }}</td>
+            <td class="text-right">{{ district.TOTAL|format_number }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if charts.recruitment_growth %}
+<div class="page-break"></div>
+<h2 class="section-title">මාසික ප්‍රගති වර්ධනය (Monthly Growth Trend)</h2>
+<div class="chart-container">
+    <img src="{{ charts.recruitment_growth }}" alt="Recruitment Growth Chart">
+</div>
+{% endif %}

@@ -1249,12 +1249,91 @@ With WeasyPrint:
     - ![](data:image/jpeg;base64,{{ image_data }})
 
     ## **Document Control**
-    - **Version:** 3.0 (WeasyPrint Revision)
+    - **Version:** 3.1 (Implementation Notes Revision)
 
-    - **Last Updated:** February 9, 2026
+    - **Last Updated:** February 24, 2026
 
     - **Major Changes:** WeasyPrint-based PDF generation with Jinja2 HTML templating
 
     - **Next Review:** After pilot implementation
 
     - **Owner:** SSB IT Department
+
+---
+
+## **12. Implementation Notes & Known Constraints**
+
+> These notes were added after critical analysis of the Phase 4–5 implementation (February 2026) and document behaviours that differ from or extend the original spec.
+
+### **12.1 Matplotlib Font Handling**
+
+The chart generator uses **per-element `FontProperties` objects** to render Sinhala text, NOT `plt.rcParams['font.family']`. Setting `rcParams` globally causes Matplotlib to resolve the font by name from its system cache (which fails on clean environments), producing hundreds of `findfont: Font family '...' not found` warnings at runtime.
+
+**Correct pattern:**
+
+```python
+font_reg = fm.FontProperties(fname=str(SINHALA_REGULAR))
+plt.title("සිංහල", fontproperties=font_reg)   # ✓ Correct
+plt.rcParams['font.family'] = font_reg.get_name()  # ✗ Wrong — causes warnings
+```
+
+### **12.2 Chart Output Quality**
+
+All charts must be saved with both `dpi=300` and `bbox_inches='tight'` on the `savefig()` call. Setting `dpi=300` only on `plt.figure()` does **not** apply to the saved file:
+
+```python
+plt.savefig(output_path, dpi=300, bbox_inches='tight')  # ✓ Correct
+plt.savefig(output_path)                                  # ✗ Saves at 72 DPI
+```
+
+### **12.3 WeasyPrint @page Watermark — Merged Block Pattern**
+
+The DRAFT watermark for preview mode must be defined **inside** the main `@page { }` block (not as a second separate `@page { }` block after it). WeasyPrint's Pango renderer does not reliably merge two cascading `@page` declarations for `background-image`:
+
+```css
+/* ✓ Correct — single merged block with Jinja conditional inside */
+@page {
+    size: A4;
+    margin: 2.5cm;
+    @bottom-right { content: "පිටුව " counter(page); }
+
+    {% if mode == 'preview' %}
+    background-image: url('...');
+    {% endif %}
+}
+
+/* ✗ Wrong — second @page block for watermark is unreliable in WeasyPrint */
+@page { size: A4; margin: 2.5cm; }
+@page { background-image: url('...'); }
+```
+
+### **12.4 UTF-8 Output on Windows**
+
+The pipeline uses emoji and Sinhala Unicode characters in `print()` calls. Windows PowerShell and CMD default to `cp1252` encoding for stdout, which throws `UnicodeEncodeError` on any non-ASCII character.
+
+**Mitigation:** `src/main.py` reconfigures stdout at startup:
+
+```python
+import io, sys
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+```
+
+Alternatively, set `PYTHONUTF8=1` as an environment variable before running the pipeline.
+
+### **12.5 Debug HTML Output**
+
+`html_builder.py` writes a rendered copy of the complete HTML to `output/html/debug_report.html` on every run. This file is for developer debugging only and should not be included in version control (add `output/html/` to `.gitignore`).
+
+### **12.6 Missing Report Sections (Next Sprint)**
+
+The following 6 of 10 division sections are **not yet rendered** by `html_builder.py`:
+
+- `DIV_04_BOARD` (Board of Directors)
+- `DIV_06_HR` (HR Statistics)
+- `DIV_07_TRAINING` (Training Programs)
+- `DIV_08_PENSIONS` (Pension Payments)
+- `DIV_09_IT` (IT Projects)
+- `DIV_10_AUDIT` (Audit Findings)
+
+Dedicated Jinja2 templates for these sections are planned for the next sprint.

@@ -1,0 +1,27 @@
+<div class="cover-page">
+    <div style="margin-bottom: 50px;">
+        <h1 style="font-size: 32pt; margin-bottom: 10px;">ශ්‍රී ලංකා සමාජ ආරක්ෂණ මණ්ඩලය</h1>
+        <h2 style="font-size: 24pt; color: #555; font-weight: normal;">Sri Lanka Social Security Board</h2>
+    </div>
+
+    <div style="border-top: 2px solid #800000; border-bottom: 2px solid #800000; padding: 20px 0; margin-bottom: 50px; width: 60%;">
+        <h2 style="font-size: 28pt; margin: 0;">මාසික ප්‍රගති වාර්තාව</h2>
+        <h3 style="font-size: 18pt; margin: 10px 0 0 0; color: #666;">Monthly Progress Report</h3>
+    </div>
+
+    <div>
+        <p style="font-size: 20pt; font-weight: bold; color: #800000;">
+            වර්ෂය සහ මාසය: {{ month }}
+        </p>
+    </div>
+
+    <div style="margin-top: auto; padding-bottom: 50px;">
+        {% if mode == 'preview' %}
+        <p style="color: red; font-weight: bold; border: 1px solid red; padding: 10px;">INTERNAL DRAFT PREVIEW</p>
+        {% endif %}
+        <p style="font-size: 11pt; color: #777;">
+            සැකසුම: සැලසුම් සහ ප්‍රගති සමාලෝචන අංශය<br>
+            Prepared by: Planning & Progress Review Division
+        </p>
+    </div>
+</div>
