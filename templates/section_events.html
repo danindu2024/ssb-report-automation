@@ -1,0 +1,21 @@
+<div class="page-break"></div>
+
+<h2 class="section-title">05. විශේෂ වැඩසටහන් (Special Events)</h2>
+
+<div class="grid-container">
+    {% for event in events %}
+    <div class="event-card keep-together">
+        {% if event.image_url %}
+        <img src="{{ event.image_url }}" alt="Event Photo">
+        {% endif %}
+        
+        <div class="event-title">{{ event.title }}</div>
+        <div class="event-date">
+            📅 {{ event.date }} &nbsp;&nbsp; 📍 {{ event.location }}
+        </div>
+        <p style="margin-top: 10px; font-size: 0.95em;">
+            {{ event.description }}
+        </p>
+    </div>
+    {% endfor %}
+</div>
