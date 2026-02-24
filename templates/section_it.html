@@ -1,0 +1,34 @@
+<div class="page-break"></div>
+<h1>තොරතුරු තාක්ෂණ ව්‍යාපෘති</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ව්‍යාපෘතියේ නම</th>
+            <th>ආරම්භක දිනය</th>
+            <th>ප්‍රගතිය</th>
+            <th>තත්ත්වය</th>
+            <th>අයවැය</th>
+            <th>විස්තරය</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in it_projects %}
+        <tr>
+            <td style="font-weight: bold;">{{ row.PROJECT_NAME }}</td>
+            <td>{{ row.START_DATE }}</td>
+            <td>{{ row.COMPLETION_PCT }}%</td>
+            <td>
+                {% if row.STATUS == "සම්පූර්ණයි" or row.STATUS == "Completed" %}
+                <span style="color: green; font-weight: bold;">{{ row.STATUS }}</span>
+                {% elif row.STATUS == "සිදුවෙමින් පවතී" or row.STATUS == "In Progress" %}
+                <span style="color: blue; font-weight: bold;">{{ row.STATUS }}</span>
+                {% else %}
+                <span style="color: orange; font-weight: bold;">{{ row.STATUS }}</span>
+                {% endif %}
+            </td>
+            <td>{{ row.BUDGET | format_currency }}</td>
+            <td>{{ row.DESCRIPTION }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,26 @@
+<div class="page-break"></div>
+<h1>මානව සම්පත් සහ පරිපාලන</h1>
+<table>
+    <thead>
+        <tr>
+            <th>මාසය</th>
+            <th>සම්පූර්ණ සේවකයින්</th>
+            <th>නව බඳවා ගැනීම්</th>
+            <th>ඉල්ලා අස්වීම්</th>
+            <th>උසස්වීම්</th>
+            <th>පුහුණු පැය</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in hr_stats %}
+        <tr>
+            <td>{{ row.MONTH }}</td>
+            <td>{{ row.TOTAL_STAFF }}</td>
+            <td>{{ row.NEW_HIRES }}</td>
+            <td>{{ row.RESIGNATIONS }}</td>
+            <td>{{ row.PROMOTIONS }}</td>
+            <td>{{ row.TRAINING_HOURS }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

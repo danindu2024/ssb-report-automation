@@ -1,0 +1,34 @@
+<div class="page-break"></div>
+<h1>විගණන තොරතුරු</h1>
+<table>
+    <thead>
+        <tr>
+            <th>දිනය</th>
+            <th>අංශය</th>
+            <th>විගණන සොයාගැනීම</th>
+            <th>බරපතලකම</th>
+            <th>තත්ත්වය</th>
+            <th>ක්‍රියාකාරී සැලැස්ම</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in audit %}
+        <tr>
+            <td>{{ row.AUDIT_DATE }}</td>
+            <td>{{ row.DIVISION }}</td>
+            <td>{{ row.FINDING }}</td>
+            <td>
+                {% if row.SEVERITY == "High" or row.SEVERITY == "ඉහළ" %}
+                <span style="color: red; font-weight: bold;">{{ row.SEVERITY }}</span>
+                {% elif row.SEVERITY == "Medium" or row.SEVERITY == "මධ්‍යම" %}
+                <span style="color: orange; font-weight: bold;">{{ row.SEVERITY }}</span>
+                {% else %}
+                <span style="color: green; font-weight: bold;">{{ row.SEVERITY }}</span>
+                {% endif %}
+            </td>
+            <td>{{ row.STATUS }}</td>
+            <td>{{ row.ACTION_PLAN }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
