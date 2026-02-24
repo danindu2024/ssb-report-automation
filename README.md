@@ -8,6 +8,7 @@ Converts Excel data into professional Sinhala-language reports using Python and 
 - **Data Processing:** Extracts KPI metrics from Excel Master Sheets.
 - **Dynamic Styling:** Jinja2 templating with Conditional Formatting (Red/Black logic).
 - **Visualization:** Grid layouts for event photos and KPI cards.
+- **Automatic Charting:** Generates "Top 5 District Performance" charts using Matplotlib.
 
 ## Setup
 1. Install GTK3 Runtime (Windows) or Pango/Cairo (Linux).
