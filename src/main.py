@@ -1,4 +1,12 @@
 import sys
+import io
+
+# Bug fix: Windows terminal defaults to cp1252, which can't encode emoji or
+# Sinhala Unicode characters used in print() calls throughout the pipeline.
+# Reconfigure stdout to UTF-8 at process start.
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+
 from cli_config import parse_arguments
 from config import initialize_system, MASTER_EXCEL_PATH
 
@@ -77,15 +85,51 @@ def main():
             print(f"   ⚠️ Image processing failed (continuing): {e}")
 
     # ---------------------------------------------------------
-    # FUTURE PIPELINE STAGES (To be implemented)
+    # STAGE 4: Charts and Visualizations
     # ---------------------------------------------------------
-    print("🚧 Step 4: Generating Charts (In Progress...)")
-    print("🚧 Step 5: Building HTML Templates (In Progress...)")
-    print("🚧 Step 6: Generating PDF (In Progress...)")
+    print("📊 Step 4: Generating Charts...")
+    try:
+        from chart_generator import generate_all_charts
+        generated_charts = generate_all_charts(data, args.month)
+        # Inject chart filenames back into the data dictionary for the HTML builder
+        data["charts"] = generated_charts
+    except Exception as e:
+        print(f"   ⚠️ Chart generation failed (continuing without charts): {e}")
 
-    print("-" * 60)
-    print("✅ Pipeline structure connected. Next: Refactor charts and PDF.")
-    print("-" * 60)
+    # ---------------------------------------------------------
+    # STAGE 5: Building HTML Templates
+    # ---------------------------------------------------------
+    print("📝 Step 5: Building HTML Template...")
+    try:
+        from html_builder import HTMLReportBuilder
+        builder = HTMLReportBuilder(mode=args.mode)
+        html_content = builder.build_complete_html(data)
+        print("   ✓ HTML built successfully.")
+    except Exception as e:
+        print(f"   ❌ Error building HTML: {e}")
+        return 1
+
+    # ---------------------------------------------------------
+    # STAGE 6: Generating PDF
+    # ---------------------------------------------------------
+    print("📄 Step 6: Generating PDF (WeasyPrint)...")
+    try:
+        from report_generator import PDFGenerator
+        from config import OUTPUT_DIR
+        
+        output_pdf_path = OUTPUT_DIR / f"SSB_Monthly_Report_{args.month}.pdf"
+        
+        pdf_gen = PDFGenerator(mode=args.mode)
+        success = pdf_gen.generate_pdf(html_content, output_pdf_path)
+        
+        if success:
+            print("-" * 60)
+            print(f"✅ Success! View your report: {output_pdf_path}")
+            print("-" * 60)
+    except Exception as e:
+        print(f"   ❌ Error during PDF wrapping: {e}")
+        return 1
+
     return 0
 
 if __name__ == "__main__":
