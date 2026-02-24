@@ -1,0 +1,26 @@
+<div class="page-break"></div>
+<h1>පුහුණු වැඩසටහන්</h1>
+<table>
+    <thead>
+        <tr>
+            <th>දිනය</th>
+            <th>වැඩසටහනේ නම</th>
+            <th>සහභාගිවන්නන්</th>
+            <th>දින ගණන</th>
+            <th>ස්ථානය</th>
+            <th>පිරිවැය</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in training %}
+        <tr>
+            <td>{{ row.DATE }}</td>
+            <td>{{ row.PROGRAM_NAME }}</td>
+            <td>{{ row.PARTICIPANTS }}</td>
+            <td>{{ row.DURATION_DAYS }}</td>
+            <td>{{ row.LOCATION }}</td>
+            <td>{{ row.COST | format_currency }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
