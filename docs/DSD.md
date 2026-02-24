@@ -1,21 +1,18 @@
-**Data Specification Document: Excel Templates & Master Sheet**
-===============================================================
+# **Data Specification Document: Excel Templates & Master Sheet**
 
 **Version:** 1.0 **Date:** February 7, 2026 **Purpose:** Define exact Excel structure for all 10 divisions
 
-**1\. MASTER EXCEL STRUCTURE**
-------------------------------
+## **1\. MASTER EXCEL STRUCTURE**
 
 ### **1.1 File Details**
 
-*   **Filename:** SSB\_Master\_Report\_2026.xlsx
-    
-*   **Location:** /data/master\_sheet.xlsx
-    
-*   **Access:** Read-only for divisions; Edit access for Coordinator only
-    
-*   **Update Mechanism:** Linked formulas from division templates (auto-refresh)
-    
+- **Filename:** SSB_Master_Report_2026.xlsx
+
+- **Location:** /data/master_sheet.xlsx
+
+- **Access:** Read-only for divisions; Edit access for Coordinator only
+
+- **Update Mechanism:** Linked formulas from division templates (auto-refresh)
 
 ### **1.2 Sheet Organization**
 
@@ -29,7 +26,7 @@
 
 **Columns**
 
-DIV\_01\_SCORECARDS
+DIV_01_SCORECARDS
 
 Social Security Dept
 
@@ -39,7 +36,7 @@ Metrics
 
 15
 
-DIV\_02\_DISTRICTS
+DIV_02_DISTRICTS
 
 District Offices
 
@@ -47,9 +44,9 @@ Performance
 
 25 (districts) × 12 (months)
 
-8
+15
 
-DIV\_03\_FINANCIALS
+DIV_03_FINANCIALS
 
 Finance Dept
 
@@ -59,7 +56,7 @@ Accounting
 
 14
 
-DIV\_04\_BOARD
+DIV_04_BOARD
 
 Admin/HR
 
@@ -69,7 +66,7 @@ Personnel
 
 6
 
-DIV\_05\_EVENTS
+DIV_05_EVENTS
 
 Public Relations
 
@@ -79,7 +76,7 @@ Variable (max 15/month)
 
 7
 
-DIV\_06\_HR
+DIV_06_HR
 
 Human Resources
 
@@ -89,7 +86,7 @@ Staff data
 
 10
 
-DIV\_07\_TRAINING
+DIV_07_TRAINING
 
 Training Unit
 
@@ -99,7 +96,7 @@ Variable (max 20/month)
 
 9
 
-DIV\_08\_PENSIONS
+DIV_08_PENSIONS
 
 Pension Dept
 
@@ -109,7 +106,7 @@ Disbursement
 
 12
 
-DIV\_09\_IT
+DIV_09_IT
 
 IT Department
 
@@ -119,7 +116,7 @@ Variable
 
 8
 
-DIV\_10\_AUDIT
+DIV_10_AUDIT
 
 Internal Audit
 
@@ -129,14 +126,13 @@ Variable
 
 10
 
-**2\. DIVISION TEMPLATE SPECIFICATIONS**
-----------------------------------------
+## **2\. DIVISION TEMPLATE SPECIFICATIONS**
 
 ### **2.1 General Rules (Apply to ALL Templates)**
 
 **Mandatory Metadata Cells:**
 
-Cell A1: Division Code (e.g., "DIV\_01")
+Cell A1: Division Code (e.g., "DIV_01")
 
 Cell B1: Division Name (Sinhala, e.g., "සමාජ ආරක්ෂණ අංශය")
 
@@ -150,30 +146,27 @@ Cell B3: Responsible Officer Name
 
 **Data Validation:**
 
-*   All numeric cells: Data > Validation > Decimal, Min=0
-    
-*   Date cells: Data > Validation > Date, Format=YYYY-MM-DD
-    
-*   Status cell: Data > Validation > List = {DRAFT, VALIDATED, APPROVED}
-    
+- All numeric cells: Data > Validation > Decimal, Min=0
+
+- Date cells: Data > Validation > Date, Format=YYYY-MM-DD
+
+- Status cell: Data > Validation > List = {DRAFT, VALIDATED, APPROVED}
 
 **Formatting:**
 
-*   Header row: Bold, Background #002366 (Navy), Font white
-    
-*   Number format: #,##0 (thousands separator, no decimals for counts)
-    
-*   Currency format: #,##0.00 (two decimals for financial values)
-    
-*   Date format: YYYY-MM-DD (ISO 8601)
-    
+- Header row: Bold, Background #002366 (Navy), Font white
 
-**2.2 TEMPLATE 1: Scorecards (Division 01)**
---------------------------------------------
+- Number format: #,##0 (thousands separator, no decimals for counts)
 
-**Filename:** DIV\_01\_Scorecards\_Template.xlsx
+- Currency format: #,##0.00 (two decimals for financial values)
 
-**Sheet Name:** MONTHLY\_METRICS
+- Date format: YYYY-MM-DD (ISO 8601)
+
+## **2.2 TEMPLATE 1: Scorecards (Division 01)**
+
+**Filename:** DIV_01_Scorecards_Template.xlsx
+
+**Sheet Name:** MONTHLY_METRICS
 
 **Structure:**
 
@@ -193,9 +186,9 @@ Cell B3: Responsible Officer Name
 
 1
 
-DIV\_CODE
+DIV_CODE
 
-DIV\_NAME
+DIV_NAME
 
 \-
 
@@ -211,7 +204,7 @@ MONTH
 
 STATUS
 
-LAST\_UPDATED
+LAST_UPDATED
 
 OFFICER
 
@@ -237,15 +230,15 @@ OFFICER
 
 **MONTH**
 
-**RECRUITMENT\_TARGET**
+**RECRUITMENT_TARGET**
 
-**RECRUITMENT\_ACTUAL**
+**RECRUITMENT_ACTUAL**
 
-**GROWTH\_PCT**
+**GROWTH_PCT**
 
-**ANNUAL\_COLLECTION**
+**ANNUAL_COLLECTION**
 
-**FIRST\_PREMIUM**
+**FIRST_PREMIUM**
 
 5
 
@@ -341,7 +334,7 @@ Reporting month
 
 B
 
-RECRUITMENT\_TARGET
+RECRUITMENT_TARGET
 
 Integer
 
@@ -351,7 +344,7 @@ Monthly target (from annual plan)
 
 C
 
-RECRUITMENT\_ACTUAL
+RECRUITMENT_ACTUAL
 
 Integer
 
@@ -361,7 +354,7 @@ Actual new members recruited
 
 D
 
-GROWTH\_PCT
+GROWTH_PCT
 
 Decimal
 
@@ -371,7 +364,7 @@ Decimal
 
 E
 
-ANNUAL\_COLLECTION
+ANNUAL_COLLECTION
 
 Decimal
 
@@ -381,7 +374,7 @@ Total collections (million LKR)
 
 F
 
-FIRST\_PREMIUM
+FIRST_PREMIUM
 
 Decimal
 
@@ -391,20 +384,19 @@ First premium income (million LKR)
 
 **Master Sheet Link:**
 
-\# In Master Sheet (DIV\_01\_SCORECARDS)
+\# In Master Sheet (DIV_01_SCORECARDS)
 
-Cell B5: ='\[DIV\_01\_Scorecards\_Template.xlsx\]MONTHLY\_METRICS'!$C$5
+Cell B5: ='\[DIV_01_Scorecards_Template.xlsx\]MONTHLY_METRICS'!$C$5
 
-Cell E5: ='\[DIV\_01\_Scorecards\_Template.xlsx\]MONTHLY\_METRICS'!$E$5
+Cell E5: ='\[DIV_01_Scorecards_Template.xlsx\]MONTHLY_METRICS'!$E$5
 
 \# ... (repeat for all months and metrics)
 
-**2.3 TEMPLATE 2: District Performance (Division 02)**
-------------------------------------------------------
+## **2.3 TEMPLATE 2: District Performance (Division 02)**
 
-**Filename:** DIV\_02\_Districts\_Template.xlsx
+**Filename:** DIV_02_Districts_Template.xlsx
 
-**Sheet Name:** DISTRICT\_MONTHLY
+**Sheet Name:** DISTRICT_MONTHLY
 
 **Structure:**
 
@@ -519,28 +511,25 @@ Cell E5: ='\[DIV\_01\_Scorecards\_Template.xlsx\]MONTHLY\_METRICS'!$E$5
 **Critical Features:**
 
 1.  **Auto-Ranking:** RANK formula updates automatically when data changes
-    
+
 2.  **Conditional Formatting:**
-    
-    *   Top 5 districts: Green background
-        
-    *   Bottom 5 districts: Yellow background
-        
+    - Top 5 districts: Green background
+
+    - Bottom 5 districts: Yellow background
+
 3.  **Data Validation:** Each cell (B5:M29) must be integer ≥0
-    
 
 **Master Sheet Link:**
 
 \# Master pulls entire table range
 
-\='\[DIV\_02\_Districts\_Template.xlsx\]DISTRICT\_MONTHLY'!$A$5:$H$29
+\='\[DIV_02_Districts_Template.xlsx\]DISTRICT_MONTHLY'!$A$5:$H$29
 
-**2.4 TEMPLATE 3: Financial Data (Division 03)**
-------------------------------------------------
+## **2.4 TEMPLATE 3: Financial Data (Division 03)**
 
-**Filename:** DIV\_03\_Financials\_Template.xlsx
+**Filename:** DIV_03_Financials_Template.xlsx
 
-**Sheet Name:** INCOME\_STATEMENT
+**Sheet Name:** INCOME_STATEMENT
 
 **Structure:**
 
@@ -560,7 +549,7 @@ Cell E5: ='\[DIV\_01\_Scorecards\_Template.xlsx\]MONTHLY\_METRICS'!$E$5
 
 4
 
-**LINE\_ITEM**
+**LINE_ITEM**
 
 **CATEGORY**
 
@@ -570,7 +559,7 @@ Cell E5: ='\[DIV\_01\_Scorecards\_Template.xlsx\]MONTHLY\_METRICS'!$E$5
 
 ...
 
-**ANNUAL\_TOTAL**
+**ANNUAL_TOTAL**
 
 5
 
@@ -590,7 +579,7 @@ INCOME
 
 \- තැපැල් කාර්යාල
 
-INCOME\_SUB
+INCOME_SUB
 
 187147374
 
@@ -604,7 +593,7 @@ INCOME\_SUB
 
 \- බැංකු හා වෙනත්
 
-INCOME\_SUB
+INCOME_SUB
 
 747560665
 
@@ -658,12 +647,11 @@ EXPENSE
 
 **Validation Rules:**
 
-*   CATEGORY values: {INCOME, INCOME\_SUB, EXPENSE, EXPENSE\_SUB}
-    
-*   All numeric cells: Decimal, ≥0
-    
-*   SUB-categories must indent (use CONCATENATE(" - ", text))
-    
+- CATEGORY values: {INCOME, INCOME_SUB, EXPENSE, EXPENSE_SUB}
+
+- All numeric cells: Decimal, ≥0
+
+- SUB-categories must indent (use CONCATENATE(" - ", text))
 
 **Auto-Calculations:**
 
@@ -679,10 +667,9 @@ EXPENSE
 
 \=N50-N51
 
-**2.5 TEMPLATE 4: Board of Directors (Division 04)**
-----------------------------------------------------
+## **2.5 TEMPLATE 4: Board of Directors (Division 04)**
 
-**Filename:** DIV\_04\_Board\_Template.xlsx
+**Filename:** DIV_04_Board_Template.xlsx
 
 **Sheet Name:** DIRECTORS
 
@@ -700,15 +687,15 @@ EXPENSE
 
 **F**
 
-**NAME\_SINHALA**
+**NAME_SINHALA**
 
-**NAME\_ENGLISH**
+**NAME_ENGLISH**
 
 **POSITION**
 
 **BIO**
 
-**PHOTO\_FILENAME**
+**PHOTO_FILENAME**
 
 **ORDER**
 
@@ -720,7 +707,7 @@ M.K.B. Dissanayake
 
 \[300 char max\]
 
-DIRECTOR\_DISSANAYAKE.jpg
+DIRECTOR_DISSANAYAKE.jpg
 
 1
 
@@ -732,18 +719,17 @@ DIRECTOR\_DISSANAYAKE.jpg
 
 \[300 char max\]
 
-DIRECTOR\_XXX.jpg
+DIRECTOR_XXX.jpg
 
 2
 
 **Validation:**
 
-*   BIO: =LEN(D5)<=300 (character limit)
-    
-*   PHOTO\_FILENAME: Must exist in /assets/images/directors/
-    
-*   ORDER: Unique integers 1-7 (for display sequence)
-    
+- BIO: =LEN(D5)<=300 (character limit)
+
+- PHOTO_FILENAME: Must exist in /assets/images/directors/
+
+- ORDER: Unique integers 1-7 (for display sequence)
 
 **Photo File Naming:**
 
@@ -751,16 +737,15 @@ Format: DIRECTOR\_\[LASTNAME\].jpg
 
 Examples:
 
-\- DIRECTOR\_DISSANAYAKE.jpg
+\- DIRECTOR_DISSANAYAKE.jpg
 
-\- DIRECTOR\_HERATH.jpg
+\- DIRECTOR_HERATH.jpg
 
-**2.6 TEMPLATE 5: Events (Division 05) - CRITICAL**
----------------------------------------------------
+## **2.6 TEMPLATE 5: Events (Division 05) - CRITICAL**
 
-**Filename:** DIV\_05\_Events\_Template.xlsx
+**Filename:** DIV_05_Events_Template.xlsx
 
-**Sheet Name:** MONTHLY\_EVENTS
+**Sheet Name:** MONTHLY_EVENTS
 
 **Structure:**
 
@@ -778,9 +763,9 @@ Examples:
 
 **G**
 
-**EVENT\_DATE**
+**EVENT_DATE**
 
-**EVENT\_TITLE**
+**EVENT_TITLE**
 
 **DESCRIPTION**
 
@@ -788,9 +773,9 @@ Examples:
 
 **PARTICIPANTS**
 
-**PHOTO\_FOLDER**
+**PHOTO_FOLDER**
 
-**PHOTO\_COUNT**
+**PHOTO_COUNT**
 
 2026-01-28
 
@@ -802,9 +787,9 @@ Examples:
 
 25
 
-2026-01-28\_MINISTER
+2026-01-28_MINISTER
 
-3
+[auto-counted]3
 
 2026-02-18
 
@@ -816,20 +801,19 @@ Examples:
 
 50
 
-2026-02-18\_AWARDS-KUR
+2026-02-18_AWARDS-KUR
 
-5
+[auto-counted]
 
 **Critical Rules:**
 
 1.  **Max 15 events per month** (validation: row count ≤15)
-    
-2.  **EVENT\_DATE:** Must be within current reporting month
-    
+
+2.  **EVENT_DATE:** Must be within current reporting month
+
 3.  **DESCRIPTION:** Character limit enforced: =LEN(C5)<=500
-    
-4.  **PHOTO\_FOLDER:** Naming convention enforced
-    
+
+4.  **PHOTO_FOLDER:** Naming convention enforced
 
 **Photo Management:**
 
@@ -837,7 +821,7 @@ Directory structure:
 
 /assets/images/events/
 
-├── 2026-01-28\_MINISTER/
+├── 2026-01-28_MINISTER/
 
 │   ├── 01.jpg  (auto-numbered)
 
@@ -845,7 +829,7 @@ Directory structure:
 
 │   └── 03.jpg
 
-├── 2026-02-18\_AWARDS-KUR/
+├── 2026-02-18_AWARDS-KUR/
 
 │   ├── 01.jpg
 
@@ -861,45 +845,43 @@ Directory structure:
 
 \# Script automatically finds all photos in folder
 
-photo\_folder = "2026-01-28\_MINISTER"
+photo_folder = "2026-01-28_MINISTER"
 
-photo\_paths = glob.glob(f"assets/images/events/{photo\_folder}/\*.jpg")
+photo_paths = glob.glob(f"assets/images/events/{photo_folder}/\*.jpg")
 
 \# Returns: \[01.jpg, 02.jpg, 03.jpg\]
 
-**2.7 TEMPLATES 6-10: Simplified Specifications**
--------------------------------------------------
+## **2.7 TEMPLATES 6-10: Simplified Specifications**
 
 ### **Template 6: HR Statistics (Division 06)**
 
-**Columns:** MONTH | TOTAL\_STAFF | NEW\_HIRES | RESIGNATIONS | PROMOTIONS | TRAINING\_HOURS
+**Columns:** MONTH | TOTAL_STAFF | NEW_HIRES | RESIGNATIONS | PROMOTIONS | TRAINING_HOURS
 
 ### **Template 7: Training Programs (Division 07)**
 
-**Columns:** DATE | PROGRAM\_NAME | PARTICIPANTS | DURATION\_DAYS | LOCATION | COST
+**Columns:** DATE | PROGRAM_NAME | PARTICIPANTS | DURATION_DAYS | LOCATION | COST
 
 ### **Template 8: Pension Disbursement (Division 08)**
 
-**Columns:** MONTH | PENSIONERS\_COUNT | TOTAL\_AMOUNT | DEATH\_BENEFITS | PARTIAL\_REFUNDS
+**Columns:** MONTH | PENSIONERS_COUNT | TOTAL_AMOUNT | DEATH_BENEFITS | PARTIAL_REFUNDS
 
 ### **Template 9: IT Initiatives (Division 09)**
 
-**Columns:** PROJECT\_NAME | STATUS | START\_DATE | COMPLETION\_PCT | BUDGET | DESCRIPTION
+**Columns:** PROJECT_NAME | STATUS | START_DATE | COMPLETION_PCT | BUDGET | DESCRIPTION
 
 ### **Template 10: Audit Findings (Division 10)**
 
-**Columns:** AUDIT\_DATE | DIVISION | FINDING | SEVERITY | STATUS | ACTION\_PLAN
+**Columns:** AUDIT_DATE | DIVISION | FINDING | SEVERITY | STATUS | ACTION_PLAN
 
-**3\. DATA LINKING MECHANISM (Master ← Templates)**
----------------------------------------------------
+## **3\. DATA LINKING MECHANISM (Master ← Templates)**
 
 ### **3.1 Automatic Update Formula**
 
-**In Master Sheet (DIV\_01\_SCORECARDS tab):**
+**In Master Sheet (DIV_01_SCORECARDS tab):**
 
 \# Cell mapping example
 
-Cell C8 (Feb Recruitment): ='C:\\SSB\\data\\division\_templates\\\[DIV\_01\_Scorecards\_Template.xlsx\]MONTHLY\_METRICS'!$C$6
+Cell C8 (Feb Recruitment): ='C:\\SSB\\data\\division_templates\\\[DIV_01_Scorecards_Template.xlsx\]MONTHLY_METRICS'!$C$6
 
 \# Advantages:
 
@@ -914,63 +896,60 @@ Cell C8 (Feb Recruitment): ='C:\\SSB\\data\\division\_templates\\\[DIV\_01\_Scor
 **Division Workflow:**
 
 1.  Open division template
-    
+
 2.  Update monthly data
-    
+
 3.  Save file (File > Save)
-    
+
 4.  Send email to coordinator: "Division X data updated for Month Y"
-    
 
 **Coordinator Workflow:**
 
 1.  Open Master Excel
-    
-2.  Click **Data > Refresh All** (updates all linked formulas)
-    
-3.  Verify STATUS column shows "VALIDATED" for all divisions
-    
-4.  Run Python validation script
-    
 
-**4\. DATA VALIDATION SCRIPT (Python)**
----------------------------------------
+2.  Click **Data > Refresh All** (updates all linked formulas)
+
+3.  Verify STATUS column shows "VALIDATED" for all divisions
+
+4.  Run Python validation script
+
+## **4\. DATA VALIDATION SCRIPT (Python)**
 
 ### **4.1 Validation Checks**
 
-\# validation\_rules.py
+\# validation_rules.py
 
-VALIDATION\_RULES = {
+VALIDATION_RULES = {
 
-    "DIV\_01\_SCORECARDS": {
+    "DIV_01_SCORECARDS": {
 
-        "required\_columns": \["MONTH", "RECRUITMENT\_ACTUAL", "ANNUAL\_COLLECTION"\],
+        "required_columns": ["MONTH", "RECRUITMENT\_ACTUAL", "ANNUAL\_COLLECTION", "FIRST\_PREMIUM"],
 
-        "numeric\_ranges": {
+        "numeric_ranges": {
 
-            "RECRUITMENT\_ACTUAL": (0, 100000),
+            "RECRUITMENT_ACTUAL": (0, 100000),
 
-            "ANNUAL\_COLLECTION": (0.0, 2000.0),
+            "ANNUAL_COLLECTION": (0.0, 2000.0),
 
-            "FIRST\_PREMIUM": (0.0, 1000.0)
+            "FIRST_PREMIUM": (0.0, 1000.0)
 
         },
 
-        "date\_format": "YYYY-MM"
+        "date_format": "YYYY-MM"
 
     },
 
-    "DIV\_02\_DISTRICTS": {
+    "DIV_02_DISTRICTS": {
 
-        "required\_rows": 25,  # Must have all 25 districts
+        "required_rows": 25,  # Must have all 25 districts
 
-        "district\_names": \[
+        "district_names": \[
 
             "නුවරඑළිය", "කුරුණෑගල", "යාපනය", ...  # Full list
 
         \],
 
-        "numeric\_ranges": {
+        "numeric_ranges": {
 
             "JAN": (0, 50000),
 
@@ -982,21 +961,21 @@ VALIDATION\_RULES = {
 
     },
 
-    "DIV\_05\_EVENTS": {
+    "DIV_05_EVENTS": {
 
-        "max\_rows": 15,  # Max 15 events per month
+        "max_rows": 15,  # Max 15 events per month
 
-        "required\_columns": \["EVENT\_DATE", "EVENT\_TITLE", "PHOTO\_FOLDER"\],
+        "required_columns": ["EVENT\_DATE", "EVENT\_TITLE", "PHOTO\_FOLDER", "DESCRIPTION"],
 
-        "character\_limits": {
+        "character_limits": {
 
             "DESCRIPTION": 500,
 
-            "EVENT\_TITLE": 100
+            "EVENT_TITLE": 100
 
         },
 
-        "photo\_validation": True  # Check if PHOTO\_FOLDER exists
+        "photo_validation": True  # Check if PHOTO_FOLDER exists
 
     }
 
@@ -1004,61 +983,61 @@ VALIDATION\_RULES = {
 
 \# Validation execution
 
-def validate\_master\_sheet(master\_file\_path):
+def validate_master_sheet(master_file_path):
 
-    wb = openpyxl.load\_workbook(master\_file\_path)
+    wb = openpyxl.load_workbook(master_file_path)
 
     errors = \[\]
 
-    for sheet\_name, rules in VALIDATION\_RULES.items():
+    for sheet_name, rules in VALIDATION_RULES.items():
 
-        sheet = wb\[sheet\_name\]
+        sheet = wb\[sheet_name\]
 
         # Check required columns exist
 
-        header\_row = \[cell.value for cell in sheet\[4\]\]
+        header_row = \[cell.value for cell in sheet\[4\]\]
 
-        for col in rules\["required\_columns"\]:
+        for col in rules\["required_columns"\]:
 
-            if col not in header\_row:
+            if col not in header_row:
 
-                errors.append(f"{sheet\_name}: Missing column {col}")
+                errors.append(f"{sheet_name}: Missing column {col}")
 
         # Check numeric ranges
 
-        if "numeric\_ranges" in rules:
+        if "numeric_ranges" in rules:
 
-            for col, (min\_val, max\_val) in rules\["numeric\_ranges"\].items():
+            for col, (min_val, max_val) in rules\["numeric_ranges"\].items():
 
-                col\_idx = header\_row.index(col)
+                col_idx = header_row.index(col)
 
-                for row in sheet.iter\_rows(min\_row=5, max\_row=sheet.max\_row):
+                for row in sheet.iter_rows(min_row=5, max_row=sheet.max_row):
 
-                    val = row\[col\_idx\].value
+                    val = row\[col_idx\].value
 
-                    if val and (val < min\_val or val > max\_val):
+                    if val and (val < min_val or val > max_val):
 
-                        errors.append(f"{sheet\_name} Row {row\[0\].row}: {col}={val} out of range \[{min\_val}, {max\_val}\]")
+                        errors.append(f"{sheet_name} Row {row\[0\].row}: {col}={val} out of range \[{min_val}, {max_val}\]")
 
         # Check photo folders exist
 
-        if rules.get("photo\_validation"):
+        if rules.get("photo_validation"):
 
-            photo\_col\_idx = header\_row.index("PHOTO\_FOLDER")
+            photo_col_idx = header_row.index("PHOTO_FOLDER")
 
-            for row in sheet.iter\_rows(min\_row=5, max\_row=sheet.max\_row):
+            for row in sheet.iter_rows(min_row=5, max_row=sheet.max_row):
 
-                folder = row\[photo\_col\_idx\].value
+                folder = row\[photo_col_idx\].value
 
                 if folder and not os.path.exists(f"assets/images/events/{folder}"):
 
-                    errors.append(f"{sheet\_name} Row {row\[0\].row}: Photo folder missing: {folder}")
+                    errors.append(f"{sheet_name} Row {row\[0\].row}: Photo folder missing: {folder}")
 
     return errors
 
 ### **4.2 Validation Report Output**
 
-**File:** /output/logs/validation\_report\_2026-02.txt
+**File:** /output/logs/validation_report_2026-02.txt
 
 SSB MONTHLY REPORT VALIDATION
 
@@ -1072,25 +1051,25 @@ DIVISION STATUS CHECK
 
 \================================================================================
 
-✓ DIV\_01\_SCORECARDS: VALIDATED (Last updated: 2026-02-28 16:30)
+✓ DIV_01_SCORECARDS: VALIDATED (Last updated: 2026-02-28 16:30)
 
-✓ DIV\_02\_DISTRICTS: VALIDATED (Last updated: 2026-02-28 14:20)
+✓ DIV_02_DISTRICTS: VALIDATED (Last updated: 2026-02-28 14:20)
 
-✗ DIV\_03\_FINANCIALS: DRAFT (Last updated: 2026-02-25 10:15) ← ACTION REQUIRED
+✗ DIV_03_FINANCIALS: DRAFT (Last updated: 2026-02-25 10:15) ← ACTION REQUIRED
 
-✓ DIV\_04\_BOARD: APPROVED (Last updated: 2026-01-15 11:00)
+✓ DIV_04_BOARD: APPROVED (Last updated: 2026-01-15 11:00)
 
-✗ DIV\_05\_EVENTS: VALIDATED (Last updated: 2026-02-28 17:00)
+✗ DIV_05_EVENTS: VALIDATED (Last updated: 2026-02-28 17:00)
 
-✓ DIV\_06\_HR: VALIDATED (Last updated: 2026-02-28 09:00)
+✓ DIV_06_HR: VALIDATED (Last updated: 2026-02-28 09:00)
 
-✓ DIV\_07\_TRAINING: VALIDATED (Last updated: 2026-02-27 15:45)
+✓ DIV_07_TRAINING: VALIDATED (Last updated: 2026-02-27 15:45)
 
-✓ DIV\_08\_PENSIONS: VALIDATED (Last updated: 2026-02-28 11:30)
+✓ DIV_08_PENSIONS: VALIDATED (Last updated: 2026-02-28 11:30)
 
-✓ DIV\_09\_IT: VALIDATED (Last updated: 2026-02-26 13:20)
+✓ DIV_09_IT: VALIDATED (Last updated: 2026-02-26 13:20)
 
-✓ DIV\_10\_AUDIT: VALIDATED (Last updated: 2026-02-28 16:00)
+✓ DIV_10_AUDIT: VALIDATED (Last updated: 2026-02-28 16:00)
 
 ACTION: Division 03 must update status to VALIDATED before final generation
 
@@ -1100,15 +1079,15 @@ DATA VALIDATION ERRORS
 
 \================================================================================
 
-ERROR: DIV\_02\_DISTRICTS Row 12: FEB value=55000 exceeds maximum (50000)
+ERROR: DIV_02_DISTRICTS Row 12: FEB value=55000 exceeds maximum (50000)
 
-ERROR: DIV\_05\_EVENTS Row 8: Photo folder missing: 2026-02-25\_TRAINING-EVENT
+ERROR: DIV_05_EVENTS Row 8: Photo folder missing: 2026-02-25_TRAINING-EVENT
 
 WARNINGS:
 
-WARNING: DIV\_01\_SCORECARDS: Feb recruitment (5200) significantly below target (7000)
+WARNING: DIV_01_SCORECARDS: Feb recruitment (5200) significantly below target (7000)
 
-WARNING: DIV\_05\_EVENTS: Event count (14) approaching limit (15)
+WARNING: DIV_05_EVENTS: Event count (14) approaching limit (15)
 
 \================================================================================
 
@@ -1120,9 +1099,9 @@ PHOTO CHECK
 
 ✗ Event photos: 
 
-   - 2026-02-18\_AWARDS-KUR: 5 photos (✓)
+   - 2026-02-18_AWARDS-KUR: 5 photos (✓)
 
-   - 2026-02-25\_TRAINING-EVENT: MISSING FOLDER (✗)
+   - 2026-02-25_TRAINING-EVENT: MISSING FOLDER (✗)
 
 \================================================================================
 
@@ -1144,84 +1123,73 @@ Next Steps:
 
 3\. Re-run validation after corrections
 
-**5\. COORDINATOR WORKFLOW CHECKLIST**
---------------------------------------
+## **5\. COORDINATOR WORKFLOW CHECKLIST**
 
 ### **5.1 Monthly Data Collection (Timeline)**
 
 **Day 1-5 of following month:**
 
-*   \[ \] Send reminder email to all 10 divisions
-    
-*   \[ \] Provide template files if needed
-    
+- \[ \] Send reminder email to all 10 divisions
+
+- \[ \] Provide template files if needed
 
 **Day 6-20:**
 
-*   \[ \] Monitor division submissions (check email notifications)
-    
-*   \[ \] Track STATUS column in Master Excel
-    
+- \[ \] Monitor division submissions (check email notifications)
+
+- \[ \] Track STATUS column in Master Excel
 
 **Day 21:**
 
-*   \[ \] Run validation script: python validate\_data.py --month 2026-02
-    
-*   \[ \] Review validation report
-    
-*   \[ \] Contact divisions with errors/warnings
-    
+- \[ \] Run validation script: python validate_data.py --month 2026-02
+
+- \[ \] Review validation report
+
+- \[ \] Contact divisions with errors/warnings
 
 **Day 22-25:**
 
-*   \[ \] Divisions correct errors
-    
-*   \[ \] Re-run validation until clean
-    
+- \[ \] Divisions correct errors
+
+- \[ \] Re-run validation until clean
 
 **Day 26:**
 
-*   \[ \] Generate PREVIEW PDF: python main.py --month 2026-02 --mode preview
-    
-*   \[ \] Review preview for layout issues
-    
+- \[ \] Generate PREVIEW PDF: python main.py --month 2026-02 --mode preview
+
+- \[ \] Review preview for layout issues
 
 **Day 27:**
 
-*   \[ \] Request final approval from management
-    
-*   \[ \] Generate FINAL PDF: python main.py --month 2026-02 --mode final
-    
+- \[ \] Request final approval from management
+
+- \[ \] Generate FINAL PDF: python main.py --month 2026-02 --mode final
 
 **Day 28:**
 
-*   \[ \] Send to printing
-    
-*   \[ \] Archive files in /output/archive/2026-02/
-    
+- \[ \] Send to printing
 
-**6\. TROUBLESHOOTING COMMON ISSUES**
--------------------------------------
+- \[ \] Archive files in /output/archive/2026-02/
+
+## **6\. TROUBLESHOOTING COMMON ISSUES**
 
 ### **Issue 1: "Division data not updating in Master"**
 
 **Cause:** Linked formula broken (file moved/renamed) **Fix:**
 
 1.  Check division template file path matches Master formula
-    
+
 2.  Re-establish link: **Data > Edit Links > Update Values**
-    
 
 ### **Issue 2: "Photo folder not found error"**
 
 **Cause:** Folder name mismatch between Excel and file system **Fix:**
 
 1.  Verify exact folder name in Excel (case-sensitive)
-    
+
 2.  Check /assets/images/events/ directory
-    
+
 3.  Ensure folder exists before running script
-    
 
 ### **Issue 3: "Sinhala text appears as boxes in PDF"**
 
@@ -1231,8 +1199,7 @@ Next Steps:
 
 **Cause:** Chart script reading old cached data **Fix:** Delete /output/charts/ folder, regenerate
 
-**7\. BACKUP & RECOVERY**
--------------------------
+## **7\. BACKUP & RECOVERY**
 
 ### **7.1 Automatic Backup Protocol**
 
@@ -1242,11 +1209,11 @@ import shutil
 
 from datetime import datetime
 
-def backup\_master\_sheet(month):
+def backup_master_sheet(month):
 
     timestamp = datetime.now().strftime("%Y%m%d\_%H%M%S")
 
-    source = "data/master\_sheet.xlsx"
+    source = "data/master_sheet.xlsx"
 
     backup = f"data/backups/master\_{month}\_{timestamp}.xlsx"
 

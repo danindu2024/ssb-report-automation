@@ -11,7 +11,6 @@
 **Tasks:**
 
 *   \[ \] Install Python 3.9+ on workstation
-    
 
 \[ \] Install required libraries:pip install weasyprint openpyxl pillow-heif matplotlib jinja2
 
@@ -49,18 +48,16 @@ print("✓ Sinhala rendering test passed")
 **Deliverables:**
 
 *   Working Python environment
-    
+
 *   Directory structure created
-    
+
 *   Test PDF with Sinhala text generated
-    
 
 **Risk Mitigation:**
 
 *   If Sinhala font doesn't render: Download Noto Sans Sinhala from Google Fonts
-    
+
 *   If Pillow install fails: Use conda instead of pip (conda install pillow)
-    
 
 **PHASE 2: DATA LAYER (Week 2)**
 --------------------------------
@@ -70,39 +67,36 @@ print("✓ Sinhala rendering test passed")
 **Tasks:**
 
 *   \[ \] Create master Excel template (SSB\_Master\_Report\_2026.xlsx)
-    
+
     *   Define 10 division sheets with exact column structure (see Data Spec doc)
-        
+
     *   Add metadata rows (Division Code, Month, Status, Last Updated)
-        
+
     *   Apply data validation rules (dropdowns, number ranges)
-        
+
 *   \[ \] Create Division 01 template (DIV\_01\_Scorecards\_Template.xlsx)
-    
+
     *   Link to master sheet using formulas
-        
+
     *   Test auto-update mechanism
-        
+
 *   \[ \] Document Excel usage guide for divisions (separate doc)
-    
 
 **Deliverables:**
 
 *   Master Excel file with all 10 sheets
-    
+
 *   Division 01 template (test case)
-    
+
 *   User guide PDF
-    
 
 **Testing:**
 
 1.  Update Division 01 template, save
-    
+
 2.  Open master, click "Refresh All"
-    
+
 3.  Verify data appears correctly
-    
 
 ### **Week 2.2: Data Extraction Module**
 
@@ -153,20 +147,18 @@ print("✓ Sinhala rendering test passed")
 **Deliverables:**
 
 *   Data loader extracting all 10 divisions
-    
+
 *   Validation script with 20+ rules
-    
+
 *   Test data set (sample February 2026 data)
-    
 
 **Testing:**
 
 1.  Load master Excel
-    
+
 2.  Print extracted JSON to verify structure
-    
+
 3.  Run validator, confirm it catches intentional errors
-    
 
 **PHASE 3: IMAGE PROCESSING (Week 3)**
 --------------------------------------
@@ -176,59 +168,54 @@ print("✓ Sinhala rendering test passed")
 **Tasks:**
 
 *   \[ \] Implement image\_processor.py (see Image Processing doc for full code)
-    
+
     *   Auto-rotate function
-        
+
     *   Smart crop function
-        
+
     *   Batch processing function
-        
+
 *   \[ \] Test with sample event photos:
-    
+
     *   Mix of portrait/landscape
-        
+
     *   Different resolutions (1024×768 to 6000×4000)
-        
+
     *   Various formats (JPG, PNG, HEIC if possible)
-        
 
 **Deliverables:**
 
 *   Working image processor handling all formats
-    
+
 *   Proof sheet generator
-    
+
 *   Validation report for images
-    
 
 **Testing:**
 
 1.  Create test folder: 2026-TEST-EVENT/ with 10 varied photos
-    
+
 2.  Run: python process\_images.py --event 2026-TEST-EVENT
-    
+
 3.  Verify all photos cropped to 800×600
-    
+
 4.  Check proof sheet PDF shows before/after correctly
-    
 
 ### **Week 3.2: Integration with Excel**
 
 **Tasks:**
 
 *   \[ \] Auto-count processed photos and update Excel
-    
+
 *   \[ \] Generate image validation report
-    
+
 *   \[ \] Handle missing photo errors gracefully
-    
 
 **Deliverables:**
 
 *   Excel auto-update working
-    
+
 *   Validation report in /output/logs/
-    
 
 **PHASE 4: PDF GENERATION ENGINE (Weeks 4-5)**
 ----------------------------------------------
@@ -362,17 +349,16 @@ Deliverables:
 **Tasks:**
 
 *   \[ \] Implement chart\_generator.py:
-    
+
     *   District bar chart (Matplotlib)
-        
+
     *   Financial trend line chart
-        
+
     *   Recruitment growth chart
-        
+
 *   \[ \] Ensure Sinhala labels render correctly
-    
+
 *   \[ \] Embed charts in PDF (high-res, 300 DPI)
-    
 
 **Code Example:**
 
@@ -427,11 +413,10 @@ chart\_uri = f"data:image/png;base64,{chart\_data}"
 **Deliverables:**
 
 *   5 chart types working
-    
+
 *   Charts embedded in PDF correctly
-    
+
 *   Sinhala text rendering verified
-    
 
 ### **Week 5.2: Preview & Final Modes**
 
@@ -557,11 +542,10 @@ Steps:
 **Deliverables:**
 
 *   Test report documenting all 10 test cases
-    
+
 *   Bug fixes for any failures
-    
+
 *   Performance tuning if generation >30 seconds
-    
 
 \### Test Case 4: Sinhala Text Rendering
 
@@ -596,36 +580,34 @@ Success Criteria:
 **Tasks:**
 
 *   \[ \] Write "Division Template User Guide" (PDF)
-    
+
     *   How to fill Excel template
-        
+
     *   Photo upload instructions
-        
+
     *   Common mistakes to avoid
-        
+
 *   \[ \] Write "Coordinator Manual" (PDF)
-    
+
     *   Monthly workflow checklist
-        
+
     *   Running scripts (step-by-step commands)
-        
+
     *   Troubleshooting guide
-        
+
 *   \[ \] Create video tutorial (optional, 10 minutes)
-    
+
     *   Screen recording of full process
-        
+
     *   Narration in Sinhala
-        
 
 **Deliverables:**
 
 *   Division User Guide PDF (20 pages)
-    
+
 *   Coordinator Manual PDF (30 pages)
-    
+
 *   Video tutorial (if time permits)
-    
 
 **PHASE 6: TRAINING & HANDOVER (Week 7)**
 -----------------------------------------
@@ -637,31 +619,28 @@ Success Criteria:
 **Agenda:**
 
 1.  System overview (30 min)
-    
+
 2.  Excel template walkthrough (45 min)
-    
+
 3.  Photo upload demo (30 min)
-    
+
 4.  Q&A (30 min)
-    
 
 **Materials:**
 
 *   Printed user guides (10 copies)
-    
+
 *   Sample Excel templates on USB drives
-    
+
 *   Training data set for practice
-    
 
 **Deliverables:**
 
 *   Training attendance sheet (signed by all divisions)
-    
+
 *   Feedback forms (identify pain points)
-    
+
 *   Action items list (any template changes requested)
-    
 
 ### **Week 7.2: Coordinator Training**
 
@@ -670,28 +649,26 @@ Success Criteria:
 **Agenda:**
 
 1.  Technical architecture overview (1 hour)
-    
+
 2.  Running scripts hands-on (2 hours)
-    
+
     *   Data validation
-        
+
     *   Image processing
-        
+
     *   PDF generation
-        
+
 3.  Troubleshooting common issues (1 hour)
-    
+
 4.  Monthly workflow practice (1 hour)
-    
 
 **Deliverables:**
 
 *   Coordinator trained and certified
-    
+
 *   Technical documentation reviewed and approved
-    
+
 *   Backup coordinator identified
-    
 
 **PHASE 7: PILOT RUN (Week 8)**
 -------------------------------
@@ -703,47 +680,44 @@ Success Criteria:
 **Timeline:**
 
 *   **Day 1-5:** Divisions submit March data
-    
+
 *   **Day 6:** Coordinator validates data, requests corrections
-    
+
 *   **Day 7-10:** Divisions fix errors
-    
+
 *   **Day 11:** Run image processing
-    
+
 *   **Day 12:** Generate preview PDF
-    
+
 *   **Day 13:** Management review
-    
+
 *   **Day 14:** Generate final PDF
-    
+
 *   **Day 15:** Send to printing
-    
+
 *   **Day 16-20:** Collect feedback from stakeholders
-    
 
 **Success Metrics:**
 
 *   \[ \] Report generated without manual intervention
-    
+
 *   \[ \] Less than 3 rounds of corrections needed
-    
+
 *   \[ \] PDF quality matches or exceeds previous manual reports
-    
+
 *   \[ \] Generation time <30 seconds
-    
+
 *   \[ \] No printing issues (fonts embedded correctly)
-    
 
 **Deliverables:**
 
 *   March 2026 printed report
-    
+
 *   Feedback summary from management
-    
+
 *   Issue log (any bugs encountered)
-    
+
 *   Refined workflow based on lessons learned
-    
 
 **POST-IMPLEMENTATION: MAINTENANCE PLAN**
 -----------------------------------------
@@ -753,55 +727,50 @@ Success Criteria:
 **Week 1 (Data Collection):**
 
 *   Send reminder emails to divisions
-    
+
 *   Monitor submission status
-    
 
 **Week 2-3 (Validation & Processing):**
 
 *   Run validation script
-    
+
 *   Process images
-    
+
 *   Coordinate with divisions on errors
-    
 
 **Week 4 (Generation & Approval):**
 
 *   Generate preview
-    
+
 *   Get management approval
-    
+
 *   Generate final PDF
-    
+
 *   Send to printing
-    
 
 ### **Quarterly Reviews (Every 3 Months)**
 
 **Review Checklist:**
 
 *   \[ \] Any new divisions added? (update templates)
-    
+
 *   \[ \] Layout changes requested? (update templates)
-    
+
 *   \[ \] Performance degradation? (optimize scripts)
-    
+
 *   \[ \] Division feedback review (improve usability)
-    
 
 ### **Annual Maintenance (Yearly)**
 
 **Tasks:**
 
 *   \[ \] Update Python libraries: pip install --upgrade -r requirements.txt
-    
+
 *   \[ \] Refresh brand colors if style guide changes
-    
+
 *   \[ \] Archive old data (move to /archive/ folder)
-    
+
 *   \[ \] Test system with new year's data structure
-    
 
 **RISK MANAGEMENT**
 -------------------
@@ -869,22 +838,20 @@ Document everything + train backup coordinator
 **If system fails during production:**
 
 1.  **Immediate:** Revert to manual Word template for current month
-    
+
 2.  **Week 1:** Debug issue, fix critical bug
-    
+
 3.  **Week 2:** Test fix with sample data
-    
+
 4.  **Week 3:** Resume automated generation
-    
 
 **Backup Strategy:**
 
 *   Keep master Excel backed up daily (OneDrive auto-sync)
-    
+
 *   Store 6 months of generated PDFs
-    
+
 *   Maintain previous Word templates for 1 year
-    
 
 **SUCCESS CRITERIA**
 --------------------
@@ -894,62 +861,56 @@ Document everything + train backup coordinator
 **Phase 1-2 (Infrastructure + Data):**
 
 *   \[ \] Python environment stable
-    
+
 *   \[ \] Excel templates created and tested
-    
+
 *   \[ \] Data extraction working for all 10 divisions
-    
 
 **Phase 3 (Images):**
 
 *   \[ \] 100 sample photos processed correctly
-    
+
 *   \[ \] No manual cropping needed
-    
+
 *   \[ \] Proof sheets generated automatically
-    
 
 **Phase 4-5 (PDF Generation):**
 
 *   \[ \] 50-page test PDF generated
-    
+
 *   \[ \] All sections render correctly
-    
+
 *   \[ \] Sinhala text displays properly
-    
+
 *   \[ \] Charts embedded with correct data
-    
 
 **Phase 6-7 (Training):**
 
 *   \[ \] All 10 divisions trained
-    
+
 *   \[ \] Coordinator can run system independently
-    
+
 *   \[ \] Documentation complete
-    
 
 **Phase 8 (Pilot):**
 
 *   \[ \] Real report printed successfully
-    
+
 *   \[ \] Management approval obtained
-    
+
 *   \[ \] No critical bugs
-    
 
 ### **Long-Term Success (3 Months Post-Launch)**
 
 *   \[ \] 3 consecutive monthly reports generated automatically
-    
+
 *   \[ \] <5% error rate in division data submission
-    
+
 *   \[ \] Generation time <30 seconds consistently
-    
+
 *   \[ \] Zero printing/font issues
-    
+
 *   \[ \] Coordinator satisfaction rating >8/10
-    
 
 **BUDGET & RESOURCES**
 ----------------------
@@ -994,54 +955,50 @@ All open source
 ### **Technical Deliverables**
 
 *   \[ \] data\_loader.py - Excel extraction
-    
+
 *   \[ \] data\_validator.py - Data validation
-    
+
 *   \[ \] image\_processor.py - Photo processing
-    
+
 *   \[ \] chart\_generator.py - Chart creation
-    
+
 *   \[ \] pdf\_builder.py - PDF generation
-    
+
 *   \[ \] main.py - Orchestration script
-    
+
 *   \[ \] config.py - Configuration settings
-    
 
 ### **Documentation Deliverables**
 
 *   \[ \] Technical Design Document (this document)
-    
+
 *   \[ \] Data Specification Document
-    
+
 *   \[ \] Image Processing Strategy
-    
+
 *   \[ \] Division User Guide
-    
+
 *   \[ \] Coordinator Manual
-    
+
 *   \[ \] Troubleshooting Guide
-    
 
 ### **Data Deliverables**
 
 *   \[ \] Master Excel template
-    
+
 *   \[ \] 10 division Excel templates
-    
+
 *   \[ \] Sample data set (for testing)
-    
+
 *   \[ \] Font files (Noto Sans Sinhala)
-    
 
 ### **Training Deliverables**
 
 *   \[ \] Training presentation slides
-    
+
 *   \[ \] Video tutorial (optional)
-    
+
 *   \[ \] Quick reference cards (printed)
-    
 
 **TIMELINE VISUALIZATION**
 --------------------------
@@ -1082,11 +1039,10 @@ Week 8: \[========== Pilot Run (March 2026) ==========\]
 **Priority 1 (Critical):**
 
 1.  Get management approval for Python-based approach
-    
+
 2.  Install Python environment and test libraries
-    
+
 3.  Download Noto Sans Sinhala font and test rendering
-    
 
 **Priority 2 (Important):** 4. Review 2025 report PDF with divisions (identify all sections) 5. Draft master Excel template structure (all 10 sheets) 6. Create sample data set for Division 01 (February 2026)
 
@@ -1095,12 +1051,11 @@ Week 8: \[========== Pilot Run (March 2026) ==========\]
 ### **Next Week (Feb 15-21, 2026)**
 
 1.  Complete master Excel template
-    
+
 2.  Build data extraction script
-    
+
 3.  Test data loader with sample data
-    
+
 4.  Begin image processor development
-    
 
 **Document Version:** 1.0 **Last Updated:** February 7, 2026 **Owner:** SSB IT Department **Next Review:** After Week 2 completion

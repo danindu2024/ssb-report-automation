@@ -9,15 +9,14 @@
 ### **Current Challenges (From Your Requirements)**
 
 1.  **Variable Photo Sizes:** Event photos submitted in different dimensions (portrait, landscape, various resolutions)
-    
+
 2.  **Manual Cropping Needed:** Currently requires manual editing to fit report layout
-    
+
 3.  **Quality Inconsistency:** Mix of high-res and low-res images
-    
+
 4.  **Naming Chaos:** No standardized file naming convention
-    
+
 5.  **Storage Inefficiency:** Large original files embedded in PDFs
-    
 
 **2\. AUTOMATED SOLUTION ARCHITECTURE**
 ---------------------------------------
@@ -746,23 +745,20 @@ Event Proof Sheet
 **Step 1: Upload photos to shared folder**
 
 *   Division creates folder: 2026-02-18\_AWARDS-KUR
-    
+
 *   Uploads photos with any filenames
-    
 
 **Step 2: Update Excel template**
 
 *   In DIV\_05\_Events\_Template.xlsx:
-    
+
     *   PHOTO\_FOLDER column: 2026-02-18\_AWARDS-KUR
-        
+
     *   PHOTO\_COUNT: (leave blank, auto-counted by script)
-        
 
 **Step 3: Notify coordinator**
 
 *   Email: "Division 05 uploaded photos for Feb 18 awards event"
-    
 
 ### **6.2 Coordinator Workflow**
 
@@ -797,11 +793,10 @@ Proof sheet: output/proof\_sheets/2026-02-18\_AWARDS-KUR\_PROOF.pdf
 **Step 2: Review proof sheet**
 
 *   Open 2026-02-18\_AWARDS-KUR\_PROOF.pdf
-    
+
 *   Verify all photos cropped correctly
-    
+
 *   If any photo needs manual adjustment, edit in /processed/ folder
-    
 
 **Step 3: Auto-update Excel**
 
@@ -1066,29 +1061,26 @@ Use detect\_panorama() special handling
 **Processing Speed (Tested on standard PC):**
 
 *   1 event photo (3MB original): 0.8 seconds
-    
+
 *   10 photos batch: 6 seconds
-    
+
 *   Full month (50 photos): 30 seconds
-    
 
 **File Size Savings:**
 
 *   Original uploads: ~3MB per photo
-    
+
 *   Processed output: ~150KB per photo
-    
+
 *   **Reduction: 95%**
-    
 
 **Quality Metrics:**
 
 *   Print resolution: 300 DPI (industry standard)
-    
+
 *   PDF embedding size: Optimal (no unnecessary bloat)
-    
+
 *   Visual quality: No perceptible degradation vs. originals
-    
 
 **11\. FUTURE ENHANCEMENTS (Optional)**
 ---------------------------------------
@@ -1096,30 +1088,29 @@ Use detect\_panorama() special handling
 ### **Phase 2 Improvements**
 
 1.  **Web Upload Interface:**
-    
+
     *   Simple web form for divisions to upload photos
-        
+
     *   Drag-and-drop, auto-naming
-        
+
     *   Real-time preview of cropped result
-        
+
 2.  **AI-Powered Smart Crop:**
-    
+
     *   Machine learning model to detect "interesting" regions
-        
+
     *   Better than center crop for complex compositions
-        
+
 3.  **Automatic Captioning:**
-    
+
     *   OCR on images with text (event banners)
-        
+
     *   Auto-suggest event titles from detected text
-        
+
 4.  **Cloud Storage Integration:**
-    
+
     *   Auto-sync with Google Drive
-        
+
     *   Backup raw images to cloud
-        
 
 **Document Version:** 1.0 **Last Updated:** February 7, 2026 **Dependencies:** PIL/Pillow, OpenCV (optional)
