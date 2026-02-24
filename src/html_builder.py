@@ -74,6 +74,49 @@ class HTMLReportBuilder:
             
         return template.render(events=formatted_events)
 
+    def build_board(self, board):
+        if not board: return ""
+        template = self.env.get_template('section_board.html')
+        
+        formatted_board = []
+        for member in board:
+            photo = member.get("PHOTO_FILENAME", "")
+            if photo:
+                img_path = ASSETS_DIR.joinpath('images/directors/processed', photo).as_uri()
+            else:
+                img_path = ""
+            
+            member_dict = dict(member)
+            member_dict["photo_url"] = img_path
+            formatted_board.append(member_dict)
+            
+        return template.render(board=formatted_board)
+
+    def build_hr(self, hr_stats):
+        if not hr_stats: return ""
+        template = self.env.get_template('section_hr.html')
+        return template.render(hr_stats=hr_stats)
+
+    def build_training(self, training):
+        if not training: return ""
+        template = self.env.get_template('section_training.html')
+        return template.render(training=training)
+
+    def build_pensions(self, pensions):
+        if not pensions: return ""
+        template = self.env.get_template('section_pensions.html')
+        return template.render(pensions=pensions)
+
+    def build_it_projects(self, it_projects):
+        if not it_projects: return ""
+        template = self.env.get_template('section_it.html')
+        return template.render(it_projects=it_projects)
+
+    def build_audit(self, audit):
+        if not audit: return ""
+        template = self.env.get_template('section_audit.html')
+        return template.render(audit=audit)
+
     def build_complete_html(self, data):
         """Builds all available sections and injects into base.html."""
         sections = []
@@ -82,9 +125,12 @@ class HTMLReportBuilder:
         sections.append(self.build_scorecards(data.get("scorecards", [])))
         sections.append(self.build_districts(data.get("districts", []), data.get("charts", {})))
         sections.append(self.build_events_section(data.get("events", [])))
-        # NOTE: board, hr, training, pensions, it_projects, audit sections
-        # will be rendered inline using a generic table template until dedicated
-        # section templates are created in a future sprint.
+        sections.append(self.build_board(data.get("board", [])))
+        sections.append(self.build_hr(data.get("hr_stats", [])))
+        sections.append(self.build_training(data.get("training", [])))
+        sections.append(self.build_pensions(data.get("pensions", [])))
+        sections.append(self.build_it_projects(data.get("it_projects", [])))
+        sections.append(self.build_audit(data.get("audit", [])))
         
         base_template = self.env.get_template('base.html')
         
