@@ -1,14 +1,41 @@
 <div class="page-break"></div>
 <h1>අධ්‍යක්ෂ මණ්ඩලය</h1>
-<div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
-    {% for member in board %}
-    <div style="width: 45%; margin-bottom: 20pt; text-align: center;">
-        {% if member.photo_url %}
-        <img src="{{ member.photo_url }}" class="director-photo" alt="{{ member.NAME_SINHALA }}" />
-        {% endif %}
-        <h3 style="margin: 10pt 0 5pt 0; color: #002366;">{{ member.NAME_SINHALA }}</h3>
-        <div style="font-weight: bold; color: #666; font-size: 10pt;">{{ member.POSITION }}</div>
-        <p style="font-size: 10pt; text-align: justify; margin-top: 5pt;">{{ member.BIO }}</p>
-    </div>
-    {% endfor %}
-</div>
+
+<table class="director-grid">
+    <tbody>
+        {% set members = board %}
+        {% for i in range(0, members|length, 2) %}
+        <tr>
+            {# First member in row #}
+            <td class="director-cell">
+                {% set m = members[i] %}
+                {% if m.photo_url %}
+                <img src="{{ m.photo_url }}" class="director-photo"
+                     width="160" height="160" alt="{{ m.NAME_SINHALA }}" />
+                {% endif %}
+                <div class="director-name">{{ m.NAME_SINHALA }}</div>
+                <div class="director-english">{{ m.NAME_ENGLISH }}</div>
+                <div class="director-position">{{ m.POSITION }}</div>
+                <p class="director-bio">{{ m.BIO }}</p>
+            </td>
+
+            {# Second member in row (may not exist for odd-count boards) #}
+            {% if i + 1 < members|length %}
+            {% set m2 = members[i + 1] %}
+            <td class="director-cell">
+                {% if m2.photo_url %}
+                <img src="{{ m2.photo_url }}" class="director-photo"
+                     width="160" height="160" alt="{{ m2.NAME_SINHALA }}" />
+                {% endif %}
+                <div class="director-name">{{ m2.NAME_SINHALA }}</div>
+                <div class="director-english">{{ m2.NAME_ENGLISH }}</div>
+                <div class="director-position">{{ m2.POSITION }}</div>
+                <p class="director-bio">{{ m2.BIO }}</p>
+            </td>
+            {% else %}
+            <td></td>  {# Keep grid balanced for odd count #}
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
