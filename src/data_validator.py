@@ -115,12 +115,18 @@ def validate_data(data):
                         f"({len(str(value))} chars)"
                     )
 
-        # ── 7. Date Format (DIV_01_SCORECARDS MONTH column) ───────────────────
+        # ── 7. Date Format ───────────────────────────────────────────────────
         date_pattern = rules.get("date_format")
         if date_pattern and date_pattern != "YYYY-MM":
             for row_idx, row in enumerate(rows, start=5):
                 date_value = row.get("EVENT_DATE") or row.get("DATE") or row.get("MONTH")
-                if date_value and not re.match(date_pattern, str(date_value)):
+                
+                if isinstance(date_value, datetime):
+                    date_str = date_value.strftime('%Y-%m-%d')
+                else:
+                    date_str = str(date_value) if date_value else ""
+                    
+                if date_value and not re.match(date_pattern, date_str):
                     errors.append(
                         f"{sheet_name} Row {row_idx}: Date '{date_value}' does not match required format"
                     )

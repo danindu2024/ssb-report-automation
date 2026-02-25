@@ -6,8 +6,8 @@ Based on: img processing strategy.md
 """
 import os
 from pathlib import Path
-from PIL import Image, ExifTags
-
+from PIL import Image, ImageOps, ExifTags
+import pillow_avif  # MUST immediately import to register AVIF reading with PIL
 from config import IMAGE_SPECS, ASSETS_DIR
 
 
@@ -93,7 +93,7 @@ def _process_folder(raw_folder, processed_folder, spec_key):
     processed_folder.mkdir(parents=True, exist_ok=True)
 
     # Supported source formats
-    supported_exts = {'.jpg', '.jpeg', '.png'}
+    supported_exts = {'.jpg', '.jpeg', '.png', '.avif'}
 
     photo_count = 1
     processed_files = []
@@ -108,9 +108,11 @@ def _process_folder(raw_folder, processed_folder, spec_key):
             # Step 1: Auto-rotate based on EXIF
             img = auto_rotate(img)
 
-            # Step 2: Minimum resolution check (1024px width per spec)
-            if img.width < 1024 and spec_key == "event":
-                print(f"  ⚠️  Skipping {img_file.name}: width {img.width}px below minimum (1024px)")
+            # Step 2: Minimum resolution check using the longest edge to handle portrait photos safely
+            min_required = 800  # Lowered slightly to allow modern smartphone standard crops
+            longest_edge = max(img.width, img.height)
+            if longest_edge < min_required and spec_key == "event":
+                print(f"  ⚠️  Skipping {img_file.name}: longest edge {longest_edge}px below minimum ({min_required}px)")
                 continue
 
             # Step 3: Smart center crop to target aspect ratio
@@ -192,13 +194,18 @@ def process_director_photos():
     spec = IMAGE_SPECS["director"]
     count = 0
 
-    for img_file in raw_dir.glob("DIRECTOR_*.jpg"):
+    for img_file in raw_dir.glob("DIRECTOR_*.*"):
+        if img_file.suffix.lower() not in {'.jpg', '.jpeg', '.png', '.avif'}:
+            continue
+            
         try:
             img = Image.open(img_file).convert("RGB")
             img = auto_rotate(img)
             img_cropped = smart_crop(img, spec["width"] / spec["height"])
             img_resized = img_cropped.resize((spec["width"], spec["height"]), Image.Resampling.LANCZOS)
-            output_file = processed_dir / img_file.name
+            
+            # Save all processed directors as uniform JPEGs
+            output_file = processed_dir / f"{img_file.stem}.jpg"
             img_resized.save(output_file, "JPEG", quality=spec["quality"], optimize=True)
             count += 1
         except Exception as e:
