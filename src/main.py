@@ -13,7 +13,7 @@ from config import initialize_system, MASTER_EXCEL_PATH
 # Custom stages
 from data_loader import load_master_sheet
 from data_validator import validate_data, write_validation_report
-from image_processor import process_all_event_images
+from image_processor import process_all_event_images, process_director_photos
 
 def main():
     # ---------------------------------------------------------
@@ -81,6 +81,9 @@ def main():
         try:
             # Send events directly to the processor
             process_all_event_images(data.get("events", []))
+            
+            # Process static elements like director headshots
+            process_director_photos()
         except Exception as e:
             print(f"   ⚠️ Image processing failed (continuing): {e}")
 
@@ -117,7 +120,7 @@ def main():
         from report_generator import PDFGenerator
         from config import OUTPUT_DIR
         
-        output_pdf_path = OUTPUT_DIR / f"SSB_Monthly_Report_{args.month}.pdf"
+        output_pdf_path = OUTPUT_DIR / f"SSB_Monthly_Report_{args.month}_v2.pdf"
         
         pdf_gen = PDFGenerator(mode=args.mode)
         success = pdf_gen.generate_pdf(html_content, output_pdf_path)
