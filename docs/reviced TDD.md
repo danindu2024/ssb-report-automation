@@ -1325,15 +1325,17 @@ Alternatively, set `PYTHONUTF8=1` as an environment variable before running the 
 
 `html_builder.py` writes a rendered copy of the complete HTML to `output/html/debug_report.html` on every run. This file is for developer debugging only and should not be included in version control (add `output/html/` to `.gitignore`).
 
-### **12.6 Missing Report Sections (Next Sprint)**
+### **12.6 Complete Report Coverage**
 
-The following 6 of 10 division sections are **not yet rendered** by `html_builder.py`:
+All 10 division sections are **fully implemented and rendered** by `html_builder.py` using dedicated Jinja2 templates:
 
+- `DIV_01_SCORECARDS` (Overall Performance)
+- `DIV_02_DISTRICTS` (District Performance)
+- `DIV_03_FINANCIALS` (Financial Trends)
 - `DIV_04_BOARD` (Board of Directors)
+- `DIV_05_EVENTS` (Events & PR)
 - `DIV_06_HR` (HR Statistics)
 - `DIV_07_TRAINING` (Training Programs)
 - `DIV_08_PENSIONS` (Pension Payments)
 - `DIV_09_IT` (IT Projects)
 - `DIV_10_AUDIT` (Audit Findings)
-
-Dedicated Jinja2 templates for these sections are planned for the next sprint.
