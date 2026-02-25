@@ -10,7 +10,7 @@ LOGS_DIR = OUTPUT_DIR / "logs"
 CHARTS_DIR = OUTPUT_DIR / "charts"
 
 # Core Files
-MASTER_EXCEL_PATH = DATA_DIR / "Annual_Report_Master_V2_2026.xlsx"
+MASTER_EXCEL_PATH = DATA_DIR / "Annual_Report_Master_V3_2026.xlsx"
 FONTS_DIR = ASSETS_DIR / "fonts"
 
 # System Initialization
