@@ -136,11 +136,15 @@ class HTMLReportBuilder:
         
         # Bug #3 fix: correct path separator for cross-platform file URI
         fonts_uri = ASSETS_DIR.joinpath('fonts').as_uri() + '/'
+        css_uri = ASSETS_DIR.joinpath('css').as_uri() + '/'
+        icons_uri = ASSETS_DIR.joinpath('icons').as_uri() + '/'
         
         html_output = base_template.render(
             content='\n'.join(sections),   # Bug #1 fix: was '\\n' (literal backslash-n)
             mode=self.mode,
-            fonts_dir=fonts_uri
+            fonts_dir=fonts_uri,
+            css_dir=css_uri,
+            icons_dir=icons_uri
         )
         
         # Bug #2 fix: ensure the output/html directory exists before writing

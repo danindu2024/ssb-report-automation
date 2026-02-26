@@ -1,7 +1,11 @@
 weasyprint
 openpyxl
+pandas
 Pillow
 pillow-heif
 matplotlib
+plotly
+kaleido
+qrcode[pil]
 jinja2
 python-dateutil

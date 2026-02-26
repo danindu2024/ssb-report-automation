@@ -1,44 +1,47 @@
 """
 Chart Generation Engine for SSB Monthly Report Automation.
-Creates standardized charts using Matplotlib with Sinhala font support.
-Based on specs in reviced TDD.md and imp roadmap.md.
+Creates standardized, beautiful charts using Plotly per the Transformation Guide.
 """
-import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
-import matplotlib.ticker as ticker
+import plotly.graph_objects as go
+import plotly.express as px
 from pathlib import Path
-import os
 
-from config import CHARTS_DIR, ASSETS_DIR
+from config import CHARTS_DIR
 
-# --- Font setup ---
-FONTS_DIR = ASSETS_DIR / "fonts"
-SINHALA_REGULAR = FONTS_DIR / "NotoSansSinhala-Regular.ttf"
-SINHALA_BOLD = FONTS_DIR / "NotoSansSinhala-Bold.ttf"
-
-# Install fonts into matplotlib
-# NOTE: We do NOT set rcParams['font.family'] globally.
-# Doing so causes Matplotlib to repeatedly try (and fail) to resolve the font
-# by name from its cache, producing hundreds of 'findfont: not found' warnings.
-# Instead we pass FontProperties objects per-element.
-font_regular = fm.FontProperties(fname=str(SINHALA_REGULAR))
-font_bold = fm.FontProperties(fname=str(SINHALA_BOLD))
-
-# --- Color Scheme ---
+# --- Design System Colors ---
 COLORS = {
-    "primary": "#800000",      # SSB Maroon
-    "secondary": "#E0E0E0",    # Light Grey (Targets)
-    "accent": "#004080",       # Deep Blue
-    "text_dark": "#333333",
-    "text_light": "#666666"
+    "primary": "#002366",      # Navy Blue
+    "accent1": "#FF6B35",      # Coral/Orange
+    "accent2": "#00A8B5",      # Teal
+    "success": "#2ECC71",      # Green
+    "alert":   "#E74C3C",      # Red
+    "text_dark": "#2C3E50",    # Charcoal
+    "text_light": "#6C757D",   # Gray
+    "bg_light": "#F8F9FA",     # Light Gray
+    "border": "#E9ECEF"        # Border line
 }
 
+# --- Base Layout Settings ---
+BASE_LAYOUT = dict(
+    font=dict(family="Noto Sans Sinhala, Arial", color="#000000", size=28),
+    paper_bgcolor="white",
+    plot_bgcolor="white",
+    margin=dict(l=100, r=40, t=120, b=100)
+)
 
 def _clean_number(val):
     if val is None: return 0.0
     try: return float(str(val).replace(',', '').strip())
     except: return 0.0
 
+def apply_base_layout(fig, title, y_title=None, x_title=None):
+    fig.update_layout(**BASE_LAYOUT)
+    fig.update_layout(
+        title=dict(text=title, font=dict(size=40, color=COLORS["primary"]), y=0.98, x=0.5, xanchor='center', yanchor='top'),
+        xaxis=dict(title=dict(text=x_title, font=dict(size=32, color="#000000")), showgrid=False, linecolor=COLORS["border"], tickfont=dict(size=28, color="#000000")),
+        yaxis=dict(title=dict(text=y_title, font=dict(size=32, color="#000000")), showgrid=True, gridcolor=COLORS["border"], linecolor=COLORS["border"], tickfont=dict(size=28, color="#000000"))
+    )
+    return fig
 
 def generate_all_charts(data, month):
     """
@@ -56,11 +59,8 @@ def generate_all_charts(data, month):
 
     return charts
 
-
-# 1. District Performance Chart (DIV_02_DISTRICTS)
 def generate_district_performance_chart(district_rows, month):
-    """Top 10 Districts by TOTAL - uses rank numbers on x-axis
-    (Sinhala district names are shown in the HTML table beneath the chart)"""
+    """Top 10 Districts by TOTAL - uses Bar Chart"""
     valid_districts = []
     for r in district_rows:
         total = _clean_number(r.get("TOTAL", 0))
@@ -72,39 +72,27 @@ def generate_district_performance_chart(district_rows, month):
     if not top_10:
         return None
 
-    # Use rank numbers (1-10) as x-labels — Sinhala names are in the HTML table
-    ranks = [str(i+1) for i in range(len(top_10))]
+    names = [d["name"] for d in top_10]
     totals = [d["total"] for d in top_10]
 
-    plt.figure(figsize=(10, 6), dpi=300)
-    bars = plt.bar(ranks, totals, color=COLORS["primary"], width=0.6)
+    fig = go.Figure(data=[
+        go.Bar(
+            x=names, 
+            y=totals, 
+            marker_color=COLORS["primary"],
+            text=[f"{t:,.0f}" for t in totals],
+            textposition='auto',
+            textfont=dict(size=28, color="white")
+        )
+    ])
 
-    # English labels — Matplotlib does not support Sinhala complex script shaping
-    plt.title('Top 10 Districts — Recruitment', fontsize=16, pad=20, fontweight='bold', color=COLORS['text_dark'])
-    plt.xlabel('Rank (see table below for district names)', fontsize=10, color=COLORS['text_light'])
-    plt.ylabel('Total Count', fontsize=12)
+    apply_base_layout(fig, title="දිස්ත්‍රික් කාර්ය සාධනය (District Performance)", y_title="සම්පූර්ණ ගණන (Total Count)")
     
-    # Grid and Spines
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.gca().spines['top'].set_visible(False)
-    plt.gca().spines['right'].set_visible(False)
-
-    # Value Labels on bars
-    for bar in bars:
-        h = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2, h + (max(totals)*0.01), 
-                 f'{int(h):,}', ha='center', color=COLORS["text_dark"], fontsize=10)
-
-    plt.tight_layout()
     output_path = CHARTS_DIR / f"districts_performance_{month}.png"
-    plt.savefig(output_path, dpi=300, bbox_inches='tight')
-    plt.close()
-
+    fig.write_image(str(output_path), width=1600, height=900, scale=2)
     print(f"   📊 Plot generated: {output_path.name}")
     return output_path.name
 
-
-# 2. Recruitment Growth Chart (DIV_02_DISTRICTS)
 def generate_recruitment_growth_chart(district_rows, month):
     """Aggregate all active districts month-over-month for the year"""
     months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
@@ -114,7 +102,6 @@ def generate_recruitment_growth_chart(district_rows, month):
         for m in months:
             monthly_totals[m] += _clean_number(r.get(m, 0))
 
-    # Stop at current month (find last non-zero or use month index)
     try:
         current_m_num = int(month.split("-")[1])
         active_months = months[:current_m_num]
@@ -126,45 +113,33 @@ def generate_recruitment_growth_chart(district_rows, month):
     if sum(active_totals) == 0:
         return None
 
-    plt.figure(figsize=(10, 5), dpi=300)
+    fig = go.Figure()
     
-    # Plot line with markers
-    plt.plot(active_months, active_totals, marker='o', linewidth=3, markersize=8, color=COLORS["accent"])
-    plt.fill_between(active_months, active_totals, alpha=0.1, color=COLORS["accent"])
+    # Area chart
+    fig.add_trace(go.Scatter(
+        x=active_months, 
+        y=active_totals, 
+        fill='tozeroy',
+        fillcolor=f"rgba(0, 168, 181, 0.2)", # Teal with opacity
+        line=dict(color=COLORS["accent2"], width=6),
+        mode='lines+markers+text',
+        marker=dict(size=20, color=COLORS["accent2"]),
+        text=[f"{t:,.0f}" for t in active_totals],
+        textposition="top center",
+        textfont=dict(size=28, color="#000000")
+    ))
 
-    # Styling
-    plt.title('Monthly Recruitment Growth Trend', fontsize=16, pad=20, fontweight='bold', color=COLORS['text_dark'])
-    plt.ylabel('New Members', fontsize=12)
-    
-    for label in plt.gca().get_xticklabels():
-        label.set_fontsize(10)
-    for label in plt.gca().get_yticklabels():
-        label.set_fontsize(10)
-        
-    # Grid and Spines
-    plt.grid(True, linestyle='--', alpha=0.5)
-    plt.gca().spines['top'].set_visible(False)
-    plt.gca().spines['right'].set_visible(False)
+    apply_base_layout(fig, title="මාසික බඳවා ගැනීමේ වර්ධනය (Monthly Recruitment Growth)", y_title="නව සාමාජිකයින් (New Members)")
 
-    for x, y in zip(active_months, active_totals):
-        plt.text(x, y + (max(active_totals)*0.05), f'{int(y):,}', ha='center',
-                 fontweight='bold', color=COLORS["accent"], fontsize=10)
-
-    plt.tight_layout()
     output_path = CHARTS_DIR / f"recruitment_growth_{month}.png"
-    plt.savefig(output_path, dpi=300, bbox_inches='tight')  # Bug #3 fix: dpi was only on figure(), not savefig()
-    plt.close()
-
+    fig.write_image(str(output_path), width=1600, height=900, scale=2)
     print(f"   📊 Plot generated: {output_path.name}")
     return output_path.name
 
-
-# 3. Financial Trend Chart (DIV_03_FINANCIALS)
 def generate_financial_trend_chart(finance_rows, month):
     """Extract Income/Collection lines and chart them"""
     months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
     
-    # We look for a line item representing "Premium Collections" or "Income"
     target_row = None
     for r in finance_rows:
         if r.get("CATEGORY") == "INCOME" or "Premium" in str(r.get("LINE_ITEM", "")):
@@ -172,7 +147,6 @@ def generate_financial_trend_chart(finance_rows, month):
             break
             
     if not target_row:
-        # Fallback to first row
         target_row = finance_rows[0] if finance_rows else None
         
     if not target_row: 
@@ -187,25 +161,24 @@ def generate_financial_trend_chart(finance_rows, month):
 
     if sum(values) == 0: return None
 
-    plt.figure(figsize=(10, 5), dpi=300)
-    
-    # Bar plot for formatting currency
-    bars = plt.bar(active_months, values, color=COLORS["secondary"], edgecolor=COLORS["primary"], linewidth=1.5)
+    # Values in millions
+    values_m = [v / 1_000_000 for v in values]
 
-    plt.title(f'Financial Performance — {target_row.get("LINE_ITEM", "Income")}', fontsize=16, pad=20, fontweight='bold', color=COLORS['text_dark'])
-    plt.ylabel('LKR (Millions)', fontsize=12)
-    
-    # Format Y-axis as millions (assuming raw is in Rupees)
-    plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, p: f'{x/1000000:,.1f}M'))
-    
-    plt.grid(axis='y', linestyle='--', alpha=0.5)
-    plt.gca().spines['top'].set_visible(False)
-    plt.gca().spines['right'].set_visible(False)
+    fig = go.Figure(data=[
+        go.Bar(
+            x=active_months, 
+            y=values_m, 
+            marker_color=COLORS["accent1"],
+            text=[f"{v:,.1f}M" for v in values_m],
+            textposition='auto',
+            textfont=dict(size=28, color="white")
+        )
+    ])
 
-    plt.tight_layout()
+    title_text = f'මූල්‍ය ප්‍රවණතා — {target_row.get("LINE_ITEM", "Income")} (Financial Trends)'
+    apply_base_layout(fig, title=title_text, y_title="මිලියන (Millions)")
+
     output_path = CHARTS_DIR / f"financial_trends_{month}.png"
-    plt.savefig(output_path, dpi=300, bbox_inches='tight')
-    plt.close()
-
+    fig.write_image(str(output_path), width=1600, height=900, scale=2)
     print(f"   📊 Plot generated: {output_path.name}")
     return output_path.name
