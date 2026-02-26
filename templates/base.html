@@ -3,38 +3,79 @@
   <head>
     <meta charset="UTF-8" />
     <title>SSB Monthly Report {% if month %}— {{ month }}{% endif %}</title>
+    <!-- Include Tailwind CSS -->
+    <link href="{{ css_dir }}tailwind.min.css" rel="stylesheet">
     <style>
       /* Base Print Styling */
       @font-face {
           font-family: 'Noto Sans Sinhala';
           src: url('{{ fonts_dir }}NotoSansSinhala-Regular.ttf') format('truetype');
-          font-weight: normal;
+          font-weight: 400;
+      }
+      @font-face {
+          font-family: 'Noto Sans Sinhala';
+          src: url('{{ fonts_dir }}NotoSansSinhala-Medium.ttf') format('truetype');
+          font-weight: 500;
+      }
+      @font-face {
+          font-family: 'Noto Sans Sinhala';
+          src: url('{{ fonts_dir }}NotoSansSinhala-SemiBold.ttf') format('truetype');
+          font-weight: 600;
       }
       @font-face {
           font-family: 'Noto Sans Sinhala';
           src: url('{{ fonts_dir }}NotoSansSinhala-Bold.ttf') format('truetype');
-          font-weight: bold;
+          font-weight: 700;
+      }
+
+      /* English text fallback structure */
+      @font-face {
+          font-family: 'Inter';
+          src: url('{{ fonts_dir }}Inter-Regular.woff2') format('woff2');
+          font-weight: 400;
+      }
+      @font-face {
+          font-family: 'Inter';
+          src: url('{{ fonts_dir }}Inter-Medium.woff2') format('woff2');
+          font-weight: 500;
+      }
+      @font-face {
+          font-family: 'Inter';
+          src: url('{{ fonts_dir }}Inter-SemiBold.woff2') format('woff2');
+          font-weight: 600;
+      }
+      @font-face {
+          font-family: 'Inter';
+          src: url('{{ fonts_dir }}Inter-Bold.woff2') format('woff2');
+          font-weight: 700;
       }
 
       body {
-          font-family: 'Noto Sans Sinhala', sans-serif;
+          font-family: 'Noto Sans Sinhala', 'Inter', sans-serif;
           font-size: 11pt;
-          line-height: 1.5;
-          color: #333333;
+          line-height: 1.6;
+          color: #2C3E50; /* Charcoal */
           margin: 0;
           padding: 0;
+          background-color: white;
       }
 
       /* PDF: A4 layout with Sinhala page counter */
       @page {
-          size: A4;
-          margin: 2.5cm;
+          size: A4 portrait;
+          margin: 25mm 30mm 20mm 30mm;
+
+          @top-center {
+            content: "කාර්ය සාධන වාර්තාව"; /* Monthly performance report */
+            font-size: 9pt;
+            color: #6C757D;
+          }
 
           @bottom-right {
               content: "පිටුව " counter(page);
               font-family: 'Noto Sans Sinhala', sans-serif;
               font-size: 9pt;
-              color: #666;
+              color: #6C757D;
           }
 
           /* {% if mode == 'preview' %} */
