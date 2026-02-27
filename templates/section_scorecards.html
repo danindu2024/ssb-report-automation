@@ -1,24 +1,120 @@
-<div class="page-break"></div>
+<div class="page-break w-full h-full p-12 bg-[#F8F9FA] relative">
+    
+    <!-- Section Header Base -->
+    <div class="mb-12 border-b-2 border-[#E9ECEF] pb-6 flex items-end justify-between">
+        <div>
+            <h2 class="text-4xl text-[#002366] font-bold tracking-tight mb-1" style="font-family: 'Inter', sans-serif;">Year at a Glance</h2>
+            <h3 class="text-2xl text-[#6C757D]" style="font-family: 'Noto Sans Sinhala', sans-serif;">වසරේ ප්‍රගතිය</h3>
+        </div>
+        <div class="bg-[#002366] text-white px-6 py-2 rounded-full font-bold text-lg shadow-md">
+            {{ month }}
+        </div>
+    </div>
 
-<h2 class="section-title">01. ප්‍රධාන දර්ශක (Key Scorecards)</h2>
+    <!-- The 2x2 KPI Grid -->
+    {% set current_score = scorecards|last %}
+    <div class="grid grid-cols-2 gap-8 mb-12">
+        
+        <!-- Strategy Card 1: New Enrollments -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-[#00A8B5] opacity-5 rounded-bl-full transform transition-transform group-hover:scale-110"></div>
+            
+            <div class="flex items-center mb-6">
+                <div class="w-12 h-12 rounded-xl bg-[#00A8B5]/10 flex items-center justify-center mr-4">
+                    <img src="{{ icons_dir }}users.svg" class="w-6 h-6" style="filter: brightness(0) saturate(100%) invert(43%) sepia(88%) saturate(1487%) hue-rotate(149deg) brightness(97%) contrast(98%);">
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-gray-400 uppercase tracking-widest" style="font-family: 'Inter', sans-serif;">New Enrollments</h4>
+                    <p class="text-lg font-bold text-[#002366]" style="font-family: 'Noto Sans Sinhala', sans-serif;">නව බඳවා ගැනීම්</p>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex items-end justify-between">
+                <div class="text-6xl font-black text-[#002366] tracking-tighter">{{ current_score.RECRUITMENT_ACTUAL|format_number }}</div>
+                <div class="flex flex-col items-end">
+                    <span class="text-sm text-gray-500 font-bold mb-1 uppercase">Target</span>
+                    <span class="text-xl font-bold text-gray-400">{{ current_score.RECRUITMENT_TARGET|format_number }}</span>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            {% set pct = (current_score.RECRUITMENT_ACTUAL / current_score.RECRUITMENT_TARGET * 100)|int if current_score.RECRUITMENT_TARGET else 0 %}
+            <div class="w-full bg-gray-100 h-2 mt-6 rounded-full overflow-hidden">
+                <div class="bg-[#00A8B5] h-full" style="width: {{ pct }}%"></div>
+            </div>
+        </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>මාසය</th>
-            <th class="text-right">බඳවා ගැනීම්</th>
-            <th class="text-right">පළමු වාරිකය (රු.මිලි)</th>
-            <th class="text-right">වාර්ෂික එකතුව (රු.මිලි)</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for row in scorecards %}
-        <tr>
-            <td>{{ row.MONTH }}</td>
-            <td class="text-right">{{ row.RECRUITMENT_ACTUAL|format_number }}</td>
-            <td class="text-right">{{ row.FIRST_PREMIUM|format_currency }}</td>
-            <td class="text-right">{{ row.ANNUAL_COLLECTION|format_currency }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <!-- Strategy Card 2: Revenue -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-[#2ECC71] opacity-5 rounded-bl-full transform transition-transform group-hover:scale-110"></div>
+            
+            <div class="flex items-center mb-6">
+                <div class="w-12 h-12 rounded-xl bg-[#2ECC71]/10 flex items-center justify-center mr-4">
+                    <img src="{{ icons_dir }}currency-dollar.svg" class="w-6 h-6" style="filter: brightness(0) saturate(100%) invert(64%) sepia(59%) saturate(4155%) hue-rotate(338deg) brightness(101%) contrast(101%);">
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-gray-400 uppercase tracking-widest" style="font-family: 'Inter', sans-serif;">Total Premium Collection</h4>
+                    <p class="text-lg font-bold text-[#002366]" style="font-family: 'Noto Sans Sinhala', sans-serif;">මුළු වාරික එකතුව</p>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-col">
+                <div class="text-5xl font-black text-[#2ECC71] tracking-tighter leading-none mb-2">Rs. {{ (current_score.ANNUAL_COLLECTION / 1000000)|round(1) }}M</div>
+                <div class="text-sm text-gray-500 font-bold">Total Annual Collections up to {{ month }}</div>
+            </div>
+        </div>
+
+        <!-- Strategy Card 3: Regional Reach -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-[#FF6B35] opacity-5 rounded-bl-full transform transition-transform group-hover:scale-110"></div>
+            
+            <div class="flex items-center mb-6">
+                <div class="w-12 h-12 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center mr-4">
+                    <img src="{{ icons_dir }}map-pin.svg" class="w-6 h-6" style="filter: brightness(0) saturate(100%) invert(53%) sepia(87%) saturate(2716%) hue-rotate(344deg) brightness(101%) contrast(101%);">
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-gray-400 uppercase tracking-widest" style="font-family: 'Inter', sans-serif;">Active Districts</h4>
+                    <p class="text-lg font-bold text-[#002366]" style="font-family: 'Noto Sans Sinhala', sans-serif;">ක්‍රියාකාරී දිස්ත්‍රික්ක</p>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex items-end justify-between">
+                <div class="text-6xl font-black text-[#002366] tracking-tighter">25</div>
+                <div class="flex items-center text-[#2ECC71] font-bold text-lg mb-2">
+                    <span class="mr-1">100%</span>
+                    <img src="{{ icons_dir }}check-circle.svg" class="w-5 h-5" style="filter: brightness(0) saturate(100%) invert(64%) sepia(59%) saturate(4155%) hue-rotate(338deg) brightness(101%) contrast(101%);">
+                </div>
+            </div>
+            <p class="text-gray-400 text-sm mt-4 font-medium">Full island-wide coverage maintained throughout the year.</p>
+        </div>
+
+        <!-- Strategy Card 4: First Month Premium Status -->
+        <div class="bg-[#002366] rounded-2xl p-8 shadow-xl border border-gray-100 relative overflow-hidden group">
+            <!-- decorative accent -->
+            <div class="absolute bottom-0 left-0 w-full h-2 bg-[#FF6B35]"></div>
+            
+            <div class="flex items-center mb-6">
+                <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mr-4">
+                    <img src="{{ icons_dir }}arrow-trending-up.svg" class="w-6 h-6" style="filter: invert(1);">
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-blue-200 uppercase tracking-widest" style="font-family: 'Inter', sans-serif;">First Premium (Target vs Actual)</h4>
+                    <p class="text-lg font-bold text-white" style="font-family: 'Noto Sans Sinhala', sans-serif;">පළමු වාරිකය</p>
+                </div>
+            </div>
+            
+            <div class="mt-4 grid grid-cols-2 gap-4 text-white">
+                <div>
+                    <span class="text-xs uppercase text-blue-300 font-bold block mb-1">Annual Goal (රු.මිලි)</span>
+                    <span class="text-3xl font-black">{{ (current_score.ANNUAL_COLLECTION / 1000000)|round(1) }}M</span>
+                </div>
+                <div>
+                    <span class="text-xs uppercase text-[#2ECC71] font-bold block mb-1">Achieved (රු.මිලි)</span>
+                    <span class="text-3xl font-black">{{ (current_score.FIRST_PREMIUM / 1000000)|round(1) }}M</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
