@@ -1,0 +1,111 @@
+<!-- TITLE PAGE — Inside Cover -->
+<div class="title-page" style="
+    page: title-page;
+    width: 210mm;
+    height: 297mm;
+    position: relative;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 30mm 20mm 25mm 20mm; /* Added distinct paddings, relying on 297mm constraint */
+">
+
+    <!-- TOP SECTION: Logo -->
+    <div style="
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 8mm;
+        margin-bottom: 6mm;
+    ">
+        <img src="assets/images/Sri_Lanka_Emblem.png" alt="Sri Lanka Emblem" style="height: 30mm; width: auto;">
+        <img src="assets/images/Organization_Logo.png" alt="Organization Logo" style="height: 31mm; width: auto;">
+    </div>
+
+    <!-- CENTER SECTION: Year and Title -->
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; width: 100%; padding: 10mm 0;">
+        
+        <!-- Subtle Side Mandala Patterns -->
+        <div style="position: absolute; left: -60mm; top: 55%; transform: translateY(-50%); width: 90mm; height: 80mm; opacity: 0.25; z-index: -1;">
+            <img src="assets/images/new_mandala.png" style="width: 100%; height: 100%; object-fit: contain;" alt="">
+        </div>
+        <div style="position: absolute; right: -60mm; top: 55%; transform: translateY(-50%); width: 90mm; height: 80mm; opacity: 0.25; z-index: -1;">
+            <img src="assets/images/new_mandala.png" style="width: 100%; height: 100%; object-fit: contain;" alt="">
+        </div>
+
+        <div style="
+            font-family: 'Inter', sans-serif;
+            font-size: 64pt;
+            font-weight: 800;
+            color: #002366;
+            letter-spacing: 0.08em;
+            line-height: 1;
+            margin-bottom: 2mm;
+        ">{{ month.split('-')[0] if month else '2026' }}</div>
+
+        <div style="
+            width: 40mm;
+            height: 1px;
+            background-color: #C9A84C;
+            margin: 3mm 0 4mm 0;
+        "></div>
+
+        <div style="
+            font-family: 'Noto Sans Sinhala', sans-serif;
+            font-size: 30pt;
+            font-weight: 700;
+            color: #002366;
+            letter-spacing: 0.05em;
+        ">වාර්ෂික වාර්තාව</div>
+        
+    </div>
+
+    <!-- BOTTOM SECTION: QR Code and Names -->
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+        <div style="
+            border: 1px solid #C9A84C;
+            padding: 3mm;
+            border-radius: 4px;
+            margin-bottom: 2mm;
+            background-color: white;
+        ">
+            <!-- Ensure html_builder passes `qr_path` pointing to output/charts/cover_qr.png -->
+            <img src="{{ qr_path }}" alt="Scan for Digital Report" style="width: 25mm; height: 25mm;">
+        </div>
+        
+        <div style="
+            font-family: 'Inter', sans-serif;
+            font-size: 10pt;
+            font-weight: 600;
+            color: #002366;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6mm;
+        ">Scan for the digital report</div>
+        
+        <div style="
+            font-family: 'Noto Sans Sinhala', sans-serif;
+            font-size: 16pt;
+            font-weight: 700;
+            color: #002366;
+            margin-bottom: 2mm;
+        ">ශ්‍රී ලංකා සමාජ ආරක්ෂණ මණ්ඩලය</div>
+        
+        <div style="
+            font-family: 'Noto Sans Sinhala', sans-serif;
+            font-size: 13pt; /* Reduced slightly to prevent wrap */
+            font-weight: 600;
+            color: #4A5568;
+            max-width: 90%;
+            line-height: 1.4;
+        ">ග්‍රාමීය සංවර්ධන, සමාජ ආරක්ෂණ සහ ප්‍රජා සවිබලගැන්වීම් අමාත්‍යාංශය</div>
+    </div>
+
+</div>
