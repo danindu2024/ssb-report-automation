@@ -14,7 +14,8 @@ env/
 
 # Generated Outputs
 output/
-assets/images/
+assets/images/events/*
+assets/images/directors/*
 proof_sheets/
 *.pdf
 
