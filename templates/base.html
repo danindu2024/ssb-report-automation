@@ -115,6 +115,14 @@
           background-image: none;
       }
 
+      /* Title Page shouldn't have page numbers or headers either */
+      @page title-page {
+          margin: 0;
+          @top-center { content: none; }
+          @bottom-right { content: none; }
+          background-image: none;
+      }
+
       div.cover-page {
           page: cover;
           height: 297mm; /* Full A4 height */

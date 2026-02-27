@@ -35,6 +35,15 @@ class HTMLReportBuilder:
             mode=self.mode
         )
 
+    def build_title_page(self, month):
+        template = self.env.get_template('section_title_page.html')
+        # Format the qr code URI properly 
+        qr_uri = (OUTPUT_DIR / "charts" / "cover_qr.png").as_uri()
+        return template.render(
+            month=month,
+            qr_path=qr_uri
+        )
+
     def build_scorecards(self, scorecards, month):
         if not scorecards: return ""
         template = self.env.get_template('section_scorecards.html')
@@ -136,6 +145,7 @@ class HTMLReportBuilder:
 
         # Front Matter
         sections.append(self.build_cover_page(month))
+        sections.append(self.build_title_page(month))
         sections.append(self.build_toc())
         sections.append(self.build_vision())
         sections.append(self.build_scorecards(data.get("scorecards", []), month))
