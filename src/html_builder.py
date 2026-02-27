@@ -28,17 +28,29 @@ class HTMLReportBuilder:
         except:
             return value
 
-    def build_cover_page(self, data):
+    def build_cover_page(self, month):
         template = self.env.get_template('section_cover.html')
         return template.render(
-            month=data.get("report_month", ""),
+            month=month,
             mode=self.mode
         )
 
-    def build_scorecards(self, scorecards):
+    def build_scorecards(self, scorecards, month):
         if not scorecards: return ""
         template = self.env.get_template('section_scorecards.html')
-        return template.render(scorecards=scorecards)
+        return template.render(
+            scorecards=scorecards,
+            month=month,
+            icons_dir=self.env.globals.get('icons_dir', '')
+        )
+
+    def build_toc(self):
+        template = self.env.get_template('section_toc.html')
+        return template.render(icons_dir=self.env.globals.get('icons_dir', ''))
+
+    def build_vision(self):
+        template = self.env.get_template('section_vision.html')
+        return template.render(icons_dir=self.env.globals.get('icons_dir', ''))
 
     def build_districts(self, districts, charts):
         if not districts: return ""
@@ -120,9 +132,13 @@ class HTMLReportBuilder:
     def build_complete_html(self, data):
         """Builds all available sections and injects into base.html."""
         sections = []
-        
-        sections.append(self.build_cover_page(data))
-        sections.append(self.build_scorecards(data.get("scorecards", [])))
+        month = data.get("report_month", "")
+
+        # Front Matter
+        sections.append(self.build_cover_page(month))
+        sections.append(self.build_toc())
+        sections.append(self.build_vision())
+        sections.append(self.build_scorecards(data.get("scorecards", []), month))
         sections.append(self.build_districts(data.get("districts", []), data.get("charts", {})))
         sections.append(self.build_events_section(data.get("events", [])))
         sections.append(self.build_board(data.get("board", [])))
